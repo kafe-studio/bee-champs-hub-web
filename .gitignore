@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+.mcp.json
+.env
+.env.*
+!.env.example
+.dev.vars
+*.log
+.DS_Store
+.turbo
+screenshots/
+docs/BeeChamps_Popis_Webu.docx
+docs/.~lock.BeeChamps_Popis_Webu.docx#
+.virex-ref/

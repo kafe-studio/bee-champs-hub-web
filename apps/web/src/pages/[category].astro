@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import { ArrowLeft, CalendarRange } from '@lucide/astro';
+import type { Category, Program } from '@bee-champs/shared';
+import { apiFetchSSR } from '../lib/api-server';
+import { t } from '@i18n';
+
+const slug = Astro.params.category;
+const origin = Astro.url.origin;
+const allCategories = await apiFetchSSR<Category[]>("/api/categories", null, origin);
+const category = allCategories.find((c) => c.slug === slug);
+
+if (!category) {
+  return Astro.redirect("/404");
+}
+
+const categoryPrograms = await apiFetchSSR<Program[]>(`/api/programs/${slug}`, null, origin);
+---
+
+<Layout title={`${category.name} | Bee Champs Hub`} description={category.description}>
+  <section class="bg-bg-tertiary pt-17">
+    <!-- Hero kategorie -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <a
+        href="/#kategorie"
+        class="inline-flex items-center gap-2 text-text-secondary hover:text-white transition-colors mb-8 text-sm"
+      >
+        <ArrowLeft class="w-4 h-4" />
+        {t.common.backToOverview}
+      </a>
+
+      <div class="flex items-center gap-4 mb-4">
+        <div
+          class="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
+          style={`background-color: ${category.color}15;`}
+        >
+          {category.icon}
+        </div>
+        <div>
+          <span
+            class="text-xs font-bold tracking-wider uppercase"
+            style={`color: ${category.color};`}
+          >
+            {category.label}
+          </span>
+          <h1 class="text-3xl md:text-4xl font-bold text-white font-heading">
+            {category.name}
+          </h1>
+        </div>
+      </div>
+
+      <p class="text-text-secondary text-lg max-w-2xl">
+        {category.description}
+      </p>
+    </div>
+  </section>
+
+  <!-- Programy -->
+  <section class="bg-bg-warm py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold text-text-dark font-heading">
+          {t.common.availablePrograms}
+          <span class="text-text-muted font-normal text-lg ml-2">({categoryPrograms.length})</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 fade-up">
+        {categoryPrograms.map((program) => (
+          <ProgramCard program={program} color={category.color} categoryLabel={category.label} />
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-12">
+        <a
+          href="/planovac"
+          class="bg-primary hover:bg-primary-hover text-bg-primary px-8 py-4 rounded-lg font-bold text-lg transition-all inline-flex items-center justify-center gap-3"
+        >
+          <CalendarRange class="w-5 h-5" />
+          {t.common.openPlanner}
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

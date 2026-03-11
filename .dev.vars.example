@@ -1,0 +1,4 @@
+ADMIN_TOKEN=your-admin-token
+SUPERADMIN_TOKEN=your-superadmin-token
+RESEND_API_KEY=re_xxxxx
+CF_API_TOKEN=your-cloudflare-api-token

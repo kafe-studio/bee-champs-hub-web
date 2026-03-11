@@ -1,0 +1,32 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminPrograms from '../../components/admin/AdminPrograms.svelte';
+import { apiFetchSSR } from '../../lib/api-server';
+
+const cookie = Astro.request.headers.get("cookie");
+const token = cookie?.match(/admin_token=([^;]+)/)?.[1] ?? "";
+const origin = Astro.url.origin;
+
+type Category = { id: number; slug: string; name: string; label: string; color: string }
+type Program = {
+  id: number; slug: string; categorySlug: string; name: string; icon: string;
+  description: string; ageRange: string; duration: string; instructors: string;
+  active: boolean; sortOrder: number;
+}
+
+let categories: Category[] = []
+let programs: Program[] = []
+
+try {
+  const [catResult, progResult] = await Promise.allSettled([
+    apiFetchSSR<Category[]>("/api/admin/categories", `admin_token=${token}`, origin),
+    apiFetchSSR<Program[]>("/api/admin/programs", `admin_token=${token}`, origin),
+  ])
+  if (catResult.status === "fulfilled") categories = catResult.value
+  if (progResult.status === "fulfilled") programs = progResult.value
+} catch {}
+---
+
+<AdminLayout title="Programy | Admin" breadcrumbs={[{ label: "Dashboard", href: "/admin" }, { label: "Programy" }]}>
+  <AdminPrograms client:load initialPrograms={programs} categories={categories} adminToken={token} />
+</AdminLayout>

@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bee-champs-hub-web",
+  "main": "apps/web/dist/_worker.js/index.js",
+  "compatibility_date": "2026-03-05",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./apps/web/dist"
+  },
+  "observability": {
+    "enabled": true
+  },
+
+  // Environment variables
+  "vars": {
+    "ENVIRONMENT": "production",
+    "APP_URL": "https://example.com"
+  },
+
+  // KV namespace pro Astro sessions
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "faab3f30ed5448398c765b598f9f36b3"
+    }
+  ],
+
+  // D1 databáze
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bee-champs-db",
+      "database_id": "a7230bb5-4eb2-40f0-b8e8-92c76d9c6578",
+      "migrations_dir": "packages/db/drizzle"
+    }
+  ]
+
+  // Secrets (nastavit přes `wrangler secret put`):
+  // ADMIN_TOKEN, SUPERADMIN_TOKEN, RESEND_API_KEY, CF_API_TOKEN
+}

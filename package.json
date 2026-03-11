@@ -1,0 +1,52 @@
+{
+  "name": "bee-champs-hub-web",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @bee-champs/web dev",
+    "dev:web": "pnpm --filter @bee-champs/web dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "deploy": "pnpm --filter @bee-champs/web run build && npx wrangler d1 migrations apply DB --remote && npx wrangler d1 execute DB --remote --file=packages/db/seed.sql --yes && npx wrangler deploy",
+    "db:generate": "pnpm --filter @bee-champs/db generate",
+    "typecheck": "tsc -p apps/web/tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  },
+  "cloudflare": {
+    "bindings": {
+      "ADMIN_TOKEN": {
+        "description": "Přihlašovací token pro admin panel. Vygenerujte: `openssl rand -hex 32`"
+      },
+      "SUPERADMIN_TOKEN": {
+        "description": "Přihlašovací token pro superadmin. Vygenerujte: `openssl rand -hex 32`"
+      },
+      "RESEND_API_KEY": {
+        "description": "API klíč z [resend.com](https://resend.com) pro odesílání emailů"
+      },
+      "CF_API_TOKEN": {
+        "description": "Cloudflare API token pro superadmin nástroje (logy, DB export). Vytvořte v [dashboard](https://dash.cloudflare.com/profile/api-tokens)"
+      }
+    }
+  },
+  "devDependencies": {
+    "wrangler": "^4.70.0",
+    "@codeforbreakfast/eslint-effect": "^0.8.5",
+    "@eslint/compat": "^2.0.2",
+    "eslint": "^10.0.0",
+    "eslint-plugin-functional": "^9.0.4",
+    "tsx": "^4.21.0",
+    "typescript-eslint": "^8.55.0"
+  }
+}

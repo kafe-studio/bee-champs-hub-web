@@ -1,0 +1,65 @@
+---
+import { CalendarRange, CircleCheckBig, Send, Trophy } from '@lucide/astro';
+
+const steps = [
+  {
+    number: "01",
+    Icon: CalendarRange,
+    title: "Otevřete plánovač",
+    description: "V ročním plánovači vidíte celou nabídku — sport, vzdělávání i pobyty — přehledně na jednom místě.",
+  },
+  {
+    number: "02",
+    Icon: CircleCheckBig,
+    title: "Vyberte programy",
+    description: "Klikejte a přidávejte klidně 10 různých akcí. Každou přiřaďte do měsíce podle potřeby.",
+  },
+  {
+    number: "03",
+    Icon: Send,
+    title: "Odešlete poptávku",
+    description: "Jeden formulář, všechny akce najednou. Kontakt, počty dětí, termíny — hotovo za 2 minuty.",
+  },
+  {
+    number: "04",
+    Icon: Trophy,
+    title: "My zařídíme vše",
+    description: "Potvrdíme detaily a zajistíme realizaci každé akce přesně podle vašeho plánu.",
+  },
+];
+---
+
+<section class="bg-bg-primary py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 fade-up">
+      <span class="text-primary font-semibold text-sm uppercase tracking-wider">Jak to funguje</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mt-2 mb-4 font-heading">
+        Od výběru k realizaci
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 fade-up">
+      {steps.map((step) => (
+        <div class="relative bg-bg-secondary rounded-xl p-6 border border-border-primary overflow-hidden">
+          <!-- Velké číslo v pozadí -->
+          <div class="absolute top-2 right-4 text-7xl font-bold text-primary/50 font-heading select-none">
+            {step.number}
+          </div>
+
+          <!-- Ikona -->
+          <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 relative z-10">
+            <step.Icon class="w-5 h-5 text-primary" />
+          </div>
+
+          <!-- Obsah -->
+          <h3 class="text-lg font-bold text-white mb-2 font-heading relative z-10">
+            {step.title}
+          </h3>
+          <p class="text-text-secondary text-sm relative z-10">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

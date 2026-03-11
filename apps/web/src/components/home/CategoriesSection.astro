@@ -1,0 +1,78 @@
+---
+import type { Category } from '@bee-champs/shared';
+import { ArrowRight, Dumbbell, BookOpen, CalendarDays, Tent } from '@lucide/astro';
+
+interface Props {
+  categories: Category[];
+}
+
+const { categories } = Astro.props;
+
+const categoryIcons: Record<string, typeof Dumbbell> = {
+  sport: Dumbbell,
+  vzdelavani: BookOpen,
+  'projektove-dny': CalendarDays,
+  akce: Tent,
+};
+---
+
+<section id="kategorie" class="bg-bg-warm py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 fade-up">
+      <span class="text-primary font-semibold text-sm uppercase tracking-wider">Co nabízíme</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text-dark mt-2 mb-4 font-heading">
+        Čtyři kategorie, jeden systém
+      </h2>
+      <p class="text-text-muted max-w-2xl mx-auto">
+        Vyberte z ověřených programů nebo si sestavte celý rok v plánovači — sport, vzdělávání, pobyty i projektové dny.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 fade-up">
+      {categories.map((cat) => {
+        const Icon = categoryIcons[cat.slug];
+        return (
+          <a
+            href={`/${cat.slug}`}
+            class="bg-white rounded-xl p-6 border border-black/[0.06] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group"
+          >
+            {/* Ikona + label */}
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 rounded-lg flex items-center justify-center"
+                style={`background-color: ${cat.color}15;`}
+              >
+                <Icon class="w-6 h-6" style={`color: ${cat.color};`} />
+              </div>
+              <span
+                class="text-xs font-bold tracking-wider uppercase"
+                style={`color: ${cat.color};`}
+              >
+                {cat.label}
+              </span>
+            </div>
+
+            {/* Nadpis */}
+            <h3 class="text-xl font-bold text-text-dark mb-2 font-heading group-hover:text-primary transition-colors">
+              {cat.name}
+            </h3>
+
+            {/* Popis */}
+            <p class="text-text-muted text-sm mb-4">
+              {cat.description}
+            </p>
+
+            {/* Odkaz */}
+            <span
+              class="text-sm font-semibold inline-flex items-center gap-1 transition-colors"
+              style={`color: ${cat.color};`}
+            >
+              Zobrazit programy
+              <ArrowRight class="w-4 h-4" />
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>

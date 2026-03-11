@@ -1,0 +1,52 @@
+---
+import { Star } from '@lucide/astro';
+
+interface Props {
+  testimonials: { id?: number; text: string; name: string; role: string; initials: string }[];
+}
+
+const { testimonials } = Astro.props;
+---
+
+<section class="bg-white py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 fade-up">
+      <span class="text-primary font-semibold text-sm uppercase tracking-wider">Reference</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-text-dark mt-2 mb-4 font-heading">
+        Co říkají školy
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-up">
+      {testimonials.map((t) => (
+        <div class="bg-bg-warm rounded-xl p-6 border border-border-light">
+          <!-- Uvozovka -->
+          <div class="text-5xl text-primary font-heading leading-none mb-2">&ldquo;</div>
+
+          <!-- Hvězdičky -->
+          <div class="flex gap-1 mb-4">
+            {[1, 2, 3, 4, 5].map(() => (
+              <Star class="w-4 h-4 text-primary fill-primary" />
+            ))}
+          </div>
+
+          <!-- Text recenze -->
+          <p class="text-text-muted text-sm italic mb-6 leading-relaxed">
+            {t.text}
+          </p>
+
+          <!-- Autor -->
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-sm">
+              {t.initials}
+            </div>
+            <div>
+              <div class="text-text-dark font-semibold text-sm">{t.name}</div>
+              <div class="text-text-muted text-xs">{t.role}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+{
+  "name": "@bee-champs/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check && svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/svelte": "^7.2.5",
+    "@bee-champs/db": "workspace:*",
+    "@bee-champs/shared": "workspace:*",
+    "@lucide/astro": "^0.577.0",
+    "astro": "^5.18.0",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.1",
+    "effect": "^3.19.19",
+    "flowbite": "4.0.1",
+    "flowbite-svelte": "^1.31.0",
+    "svelte": "^5.53.7",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@tailwindcss/vite": "~4.1.18",
+    "svelte-check": "^4.4.3",
+    "tailwindcss": "~4.1.18",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.70.0"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "nav": {
+    "sport": "Sport",
+    "education": "Vzdělávání",
+    "projectDays": "Projektové dny",
+    "events": "Akce",
+    "planner": "Roční plánovač",
+    "plannerShort": "Plánovač"
+  },
+  "planner": {
+    "title": "Roční plánovač",
+    "subtitle": "Sestavte harmonogram aktivit na celý školní rok",
+    "schoolYear": "Školní rok 2025 / 2026",
+    "programsSelected": "programů vybráno",
+    "assignments": "přiřazení",
+    "submitInquiry": "Odeslat poptávku",
+    "submitInquiryShort": "Odeslat",
+    "featureComingSoon": "Funkce bude dostupná v další verzi",
+    "sidebar": {
+      "title": "Nabídka programů",
+      "subtitle": "Klikněte na program \u2192 vyberte měsíc. Libovolný počet.",
+      "searchPlaceholder": "Hledat program...",
+      "filterAll": "Vše",
+      "noResults": "Žádné programy neodpovídají filtru",
+      "assignedCount": "\u2713 Vybráno ({count}x)"
+    },
+    "calendar": {
+      "noPrograms": "Žádné programy",
+      "addProgram": "Přidat program"
+    },
+    "modal": {
+      "selectMonths": "Přiřaďte do měsíců školního roku",
+      "selectPrograms": "Vyberte programy pro tento měsíc",
+      "clickMonths": "Klikněte na měsíce, ve kterých chcete program mít:",
+      "noPrograms": "Nejprve přidejte programy přes tlačítko + v levém panelu",
+      "done": "Hotovo",
+      "close": "Zavřít"
+    },
+    "summary": {
+      "selected": "Vybrané:",
+      "clearAll": "Vymazat vše"
+    },
+    "months": {
+      "september": "Září",
+      "october": "Říjen",
+      "november": "Listopad",
+      "december": "Prosinec",
+      "january": "Leden",
+      "february": "Únor",
+      "march": "Březen",
+      "april": "Duben",
+      "may": "Květen",
+      "june": "Červen",
+      "july": "Červenec",
+      "august": "Srpen"
+    },
+    "monthsShort": {
+      "september": "Zář",
+      "october": "Říj",
+      "november": "Lis",
+      "december": "Pro",
+      "january": "Led",
+      "february": "Úno",
+      "march": "Bře",
+      "april": "Dub",
+      "may": "Kvě",
+      "june": "Čer",
+      "july": "Čvc",
+      "august": "Srp"
+    }
+  },
+  "categories": {
+    "sport": "Sport",
+    "education": "Vzdělávání",
+    "projectDays": "Projektové dny",
+    "events": "Akce a pobyty"
+  },
+  "common": {
+    "backToOverview": "Zpět na přehled",
+    "availablePrograms": "Dostupné programy",
+    "addToPlanner": "Přidat do plánovače",
+    "openPlanner": "Otevřít roční plánovač",
+    "browsePrograms": "Prohlédnout programy"
+  },
+  "hero": {
+    "title": "Plánujte celý školní rok na",
+    "titleHighlight": "jednom místě",
+    "subtitle": "Inovativní nástroj pro MŠ a ZŠ. Vyberte si z desítek ověřených programů a sestavte si harmonogram na míru vašim žákům během pár minut.",
+    "openPlanner": "Otevřít plánovač",
+    "stat1Value": "50+",
+    "stat1Label": "Ověřených programů",
+    "stat2Value": "100+",
+    "stat2Label": "Spokojených škol",
+    "stat3Value": "10k+",
+    "stat3Label": "Dětí v programech",
+    "easyPlanning": "Snadné plánování",
+    "saveTime": "Ušetřete hodiny času"
+  },
+  "inquiry": {
+    "title": "Odeslat poptávku",
+    "subtitle": "Vyplňte údaje o vaší škole a my se vám ozveme.",
+    "schoolName": "Název školy",
+    "schoolNamePlaceholder": "ZŠ / MŠ ...",
+    "schoolType": "Typ školy",
+    "schoolTypePlaceholder": "Vyberte typ školy",
+    "schoolTypes": {
+      "ms": "Mateřská škola",
+      "zs": "Základní škola",
+      "ss": "Střední škola",
+      "other": "Jiné"
+    },
+    "city": "Město",
+    "cityPlaceholder": "Praha, Brno ...",
+    "childrenCount": "Počet dětí",
+    "childrenCountPlaceholder": "např. 25",
+    "ageRange": "Věkový rozsah",
+    "ageRangePlaceholder": "např. 6–10 let",
+    "contactName": "Jméno kontaktní osoby",
+    "contactNamePlaceholder": "Jan Novák",
+    "contactPosition": "Pozice",
+    "contactPositionPlaceholder": "Ředitel/ka, učitel/ka ...",
+    "contactPhone": "Telefon",
+    "contactPhonePlaceholder": "+420 ...",
+    "contactEmail": "E-mail",
+    "contactEmailPlaceholder": "skola@example.cz",
+    "hasGym": "Tělocvična",
+    "hasGymOptions": {
+      "yes": "Ano, máme",
+      "no": "Ne, nemáme",
+      "external": "Využíváme externí"
+    },
+    "hasPlayground": "Venkovní hřiště",
+    "hasPlaygroundOptions": {
+      "yes": "Ano, máme",
+      "no": "Ne, nemáme"
+    },
+    "notes": "Poznámky",
+    "notesPlaceholder": "Cokoliv dalšího, co bychom měli vědět ...",
+    "selectedPrograms": "Vybrané programy",
+    "submit": "Odeslat poptávku",
+    "submitting": "Odesílám...",
+    "successTitle": "Poptávka odeslána!",
+    "successMessage": "Děkujeme za váš zájem. Ozveme se vám co nejdříve.",
+    "successClose": "Zavřít",
+    "errorGeneral": "Nastala chyba při odesílání. Zkuste to prosím znovu.",
+    "required": "Povinné pole",
+    "sectionSchool": "Údaje o škole",
+    "sectionContact": "Kontaktní údaje",
+    "sectionFacilities": "Zázemí školy",
+    "sectionNotes": "Doplňující informace"
+  },
+  "cta": {
+    "title": "Naplánujte celý rok za 15 minut",
+    "subtitle": "Vyberte si libovolný mix sportovních, vzdělávacích i pobytových programů — vše v jednom."
+  }
+}

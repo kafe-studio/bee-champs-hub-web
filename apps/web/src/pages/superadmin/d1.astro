@@ -1,0 +1,10 @@
+---
+import SuperadminLayout from '../../layouts/SuperadminLayout.astro';
+import D1Console from '../../components/superadmin/D1Console.svelte';
+
+const superadminToken = (Astro.locals as Record<string, unknown>).superadminToken as string;
+---
+
+<SuperadminLayout title="D1 Konzole | Superadmin">
+  <D1Console client:load {superadminToken} />
+</SuperadminLayout>

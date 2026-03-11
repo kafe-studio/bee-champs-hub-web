@@ -1,0 +1,10 @@
+---
+import SuperadminLayout from '../../layouts/SuperadminLayout.astro';
+import CachePurge from '../../components/superadmin/CachePurge.svelte';
+
+const superadminToken = (Astro.locals as Record<string, unknown>).superadminToken as string;
+---
+
+<SuperadminLayout title="Cache Purge | Superadmin">
+  <CachePurge client:load {superadminToken} />
+</SuperadminLayout>

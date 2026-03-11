@@ -1,0 +1,61 @@
+---
+import { siteData } from '@data/siteData';
+---
+
+<footer class="bg-bg-primary border-t border-primary pt-12 pb-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <!-- Logo + tagline -->
+      <div class="md:col-span-1">
+        <!-- Logo dle logomanuálu -->
+        <a href="/" class="flex items-center gap-3 mb-4">
+          <img src="/logo.svg" alt="Bee Champs" width="40" height="42" class="shrink-0" />
+          <span class="text-xl font-bold font-heading text-white tracking-wide uppercase">
+            Bee Champs <span class="text-primary">Hub</span>
+          </span>
+        </a>
+        <p class="text-text-secondary text-sm">
+          Plánovací platforma pro MŠ a ZŠ. Sestavte celý školní rok na jednom místě.
+        </p>
+      </div>
+
+      <!-- Programy -->
+      <div>
+        <h3 class="text-white font-semibold mb-4">Programy</h3>
+        <ul class="space-y-2">
+          <li><a href="/sport" class="text-text-secondary hover:text-primary transition-colors text-sm">Sport</a></li>
+          <li><a href="/vzdelavani" class="text-text-secondary hover:text-primary transition-colors text-sm">Vzdělávání</a></li>
+          <li><a href="/projektove-dny" class="text-text-secondary hover:text-primary transition-colors text-sm">Projektové dny</a></li>
+          <li><a href="/akce" class="text-text-secondary hover:text-primary transition-colors text-sm">Akce a pobyty</a></li>
+        </ul>
+      </div>
+
+      <!-- Nástroje -->
+      <div>
+        <h3 class="text-white font-semibold mb-4">Nástroje</h3>
+        <ul class="space-y-2">
+          <li><a href="/planovac" class="text-text-secondary hover:text-primary transition-colors text-sm">Roční plánovač</a></li>
+        </ul>
+      </div>
+
+      <!-- Kontakt -->
+      <div>
+        <h3 class="text-white font-semibold mb-4">Kontakt</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href={`mailto:${siteData.email}`} class="text-text-secondary hover:text-primary transition-colors text-sm">
+              {siteData.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-border-primary pt-6">
+      <p class="text-text-muted text-sm text-center">
+        &copy; {new Date().getFullYear()} Bee Champs Hub. Všechna práva vyhrazena.
+      </p>
+    </div>
+  </div>
+</footer>

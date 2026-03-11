@@ -1,0 +1,18 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminSettings from '../../components/admin/AdminSettings.svelte';
+import { apiFetchSSR } from '../../lib/api-server';
+
+const cookie = Astro.request.headers.get("cookie");
+const token = cookie?.match(/admin_token=([^;]+)/)?.[1] ?? "";
+const origin = Astro.url.origin;
+
+let settings: Record<string, string> = {}
+try {
+  settings = await apiFetchSSR<Record<string, string>>("/api/admin/settings", `admin_token=${token}`, origin)
+} catch {}
+---
+
+<AdminLayout title="Nastavení | Admin" breadcrumbs={[{ label: "Dashboard", href: "/admin" }, { label: "Nastavení" }]}>
+  <AdminSettings client:load initialSettings={settings} adminToken={token} />
+</AdminLayout>

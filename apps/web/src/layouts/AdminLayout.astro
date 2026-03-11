@@ -1,0 +1,237 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+}
+
+const { title = "Admin | Bee Champs Hub", breadcrumbs = [] } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: "/admin", label: "Dashboard", icon: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+  { href: "/admin/programy", label: "Programy", icon: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>' },
+  { href: "/admin/poptavky", label: "Poptávky", icon: '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/>' },
+  { href: "/admin/reference", label: "Reference", icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+  { href: "/admin/nastaveni", label: "Nastavení", icon: '<circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>' },
+];
+
+
+function isActive(href: string): boolean {
+  if (href === "/admin") return currentPath === "/admin" || currentPath === "/admin/";
+  return currentPath.startsWith(href);
+}
+
+function getActiveLabel(): string {
+  const item = navItems.find(i => isActive(i.href));
+  return item?.label ?? "Admin";
+}
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-[#EFEDE8] text-text-dark antialiased">
+    <div class="flex min-h-screen">
+      <!-- Sidebar (desktop) — tmavé navy -->
+      <aside transition:persist="admin-sidebar" class="hidden lg:flex w-64 flex-col bg-bg-primary border-r border-border-primary fixed inset-y-0 left-0 z-40">
+        <!-- Logo -->
+        <div class="flex items-center gap-2 px-5 py-5 border-b border-border-primary">
+          <div class="bg-primary p-1.5 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-bg-primary fill-current"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          </div>
+          <div>
+            <span class="text-sm font-bold font-heading text-white">Bee Champs <span class="text-primary">Admin</span></span>
+          </div>
+        </div>
+
+        <!-- Navigace -->
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                isActive(item.href)
+                  ? "bg-primary/15 text-primary"
+                  : "text-text-secondary hover:bg-white/5 hover:text-white"
+              ]}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+                <Fragment set:html={item.icon} />
+              </svg>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <!-- Footer -->
+        <div class="px-3 py-4 border-t border-border-primary">
+          <a href="/" class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-text-secondary hover:text-white hover:bg-white/5 transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Zpět na web
+          </a>
+          <button
+            id="logout-btn"
+            class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-text-secondary hover:text-cat-events hover:bg-cat-events/10 transition-colors mt-1"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+            Odhlásit se
+          </button>
+        </div>
+      </aside>
+
+      <!-- Mobile header -->
+      <header transition:persist="admin-mobile-header" class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-bg-primary border-b border-border-primary h-14 flex items-center justify-between px-4">
+        <a href="/admin" class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-bg-primary fill-current"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          </div>
+          <span class="text-sm font-bold font-heading text-white">Admin</span>
+        </a>
+        <button id="admin-menu-btn" class="p-2 text-text-secondary hover:text-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+      </header>
+
+      <!-- Mobile nav overlay -->
+      <div transition:persist="admin-nav-backdrop" id="admin-nav-backdrop" class="fixed inset-0 z-[110] bg-black/50 hidden lg:hidden"></div>
+      <aside transition:persist="admin-nav-panel" id="admin-nav-panel" class="fixed top-0 right-0 bottom-0 z-[120] w-64 bg-bg-primary border-l border-border-primary translate-x-full lg:hidden transition-transform duration-300">
+        <div class="flex items-center justify-between px-4 py-4 border-b border-border-primary">
+          <span class="text-sm font-bold text-white font-heading">Navigace</span>
+          <button id="admin-nav-close" class="p-1 text-text-secondary hover:text-white">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <nav class="p-3 space-y-1">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                isActive(item.href)
+                  ? "bg-primary/15 text-primary"
+                  : "text-text-secondary hover:bg-white/5 hover:text-white"
+              ]}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+                <Fragment set:html={item.icon} />
+              </svg>
+              {item.label}
+            </a>
+          ))}
+          <div class="border-t border-border-primary mt-3 pt-3">
+            <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-text-secondary hover:text-white hover:bg-white/5 transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              Zpět na web
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Main content area -->
+      <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+        <!-- TopNav Bar (desktop) — Pattern: breadcrumbs + actions -->
+        <header class="hidden lg:flex items-center h-16 px-8 bg-white border-b border-black/8 sticky top-0 z-30">
+          <nav class="flex items-center gap-1.5 text-sm" aria-label="Breadcrumb">
+            <a href="/admin" class="text-text-muted hover:text-primary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </a>
+            {breadcrumbs.length > 0 ? (
+              breadcrumbs.map((crumb) => (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-muted/40"><path d="m9 18 6-6-6-6"/></svg>
+                  {crumb.href ? (
+                    <a href={crumb.href} class="text-text-muted hover:text-primary transition-colors">{crumb.label}</a>
+                  ) : (
+                    <span class="text-text-dark font-medium">{crumb.label}</span>
+                  )}
+                </>
+              ))
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-muted/40"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="text-text-dark font-medium">{getActiveLabel()}</span>
+              </>
+            )}
+          </nav>
+          <div class="flex-1"></div>
+          <div class="flex items-center gap-3">
+            <a href="/" class="text-sm text-text-muted hover:text-primary transition-colors flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+              Zobrazit web
+            </a>
+          </div>
+        </header>
+
+        <!-- Page content -->
+        <main class="flex-1 pt-14 lg:pt-0">
+          <div class="p-4 sm:p-6 lg:px-8 lg:py-8">
+            <div style="max-width: 1100px" class="mx-auto">
+              <slot />
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function initAdminNav() {
+        const btn = document.getElementById('admin-menu-btn')
+        const panel = document.getElementById('admin-nav-panel')
+        const backdrop = document.getElementById('admin-nav-backdrop')
+        const closeBtn = document.getElementById('admin-nav-close')
+
+        function open() {
+          backdrop?.classList.remove('hidden')
+          panel?.classList.remove('translate-x-full')
+        }
+        function close() {
+          panel?.classList.add('translate-x-full')
+          backdrop?.classList.add('hidden')
+        }
+
+        btn?.addEventListener('click', open)
+        closeBtn?.addEventListener('click', close)
+        backdrop?.addEventListener('click', close)
+        panel?.querySelectorAll('a').forEach(a => a.addEventListener('click', close))
+
+        // Logout
+        const logoutBtn = document.getElementById('logout-btn')
+        logoutBtn?.addEventListener('click', async () => {
+          try {
+            await fetch('/api/admin/logout', {
+              method: 'POST',
+              credentials: 'include',
+            })
+          } catch {}
+          window.location.href = '/admin/login'
+        })
+      }
+
+      initAdminNav()
+      document.addEventListener('astro:page-load', initAdminNav)
+    </script>
+  </body>
+</html>

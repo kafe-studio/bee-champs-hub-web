@@ -1,0 +1,10 @@
+---
+import SuperadminLayout from '../../layouts/SuperadminLayout.astro';
+import SuperadminDashboard from '../../components/superadmin/SuperadminDashboard.svelte';
+
+const superadminToken = (Astro.locals as Record<string, unknown>).superadminToken as string;
+---
+
+<SuperadminLayout title="Dashboard | Superadmin">
+  <SuperadminDashboard client:load {superadminToken} />
+</SuperadminLayout>

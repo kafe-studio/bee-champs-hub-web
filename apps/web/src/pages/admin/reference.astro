@@ -1,0 +1,20 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminTestimonials from '../../components/admin/AdminTestimonials.svelte';
+import { apiFetchSSR } from '../../lib/api-server';
+
+const cookie = Astro.request.headers.get("cookie");
+const token = cookie?.match(/admin_token=([^;]+)/)?.[1] ?? "";
+const origin = Astro.url.origin;
+
+type Testimonial = { id: number; text: string; name: string; role: string; initials: string; active: boolean; sortOrder: number }
+
+let testimonials: Testimonial[] = []
+try {
+  testimonials = await apiFetchSSR<Testimonial[]>("/api/admin/testimonials", `admin_token=${token}`, origin)
+} catch {}
+---
+
+<AdminLayout title="Reference | Admin" breadcrumbs={[{ label: "Dashboard", href: "/admin" }, { label: "Reference" }]}>
+  <AdminTestimonials client:load initialTestimonials={testimonials} adminToken={token} />
+</AdminLayout>

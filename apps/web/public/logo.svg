@@ -1,0 +1,55 @@
+<svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bee Champs logo">
+  <!--
+    Bee Champs geometrické logo — negativní provedení (bílé kontury na tmavém podkladu)
+    Barvy: oranžová #ED8E11 (primární výplně), bílá #FFFFFF (kontury)
+    Dle logomanuálu str. 6 — negativní provedení pro tmavý podklad
+  -->
+
+  <!-- KORUNA (nahoře, středem na x=100) -->
+  <path fill="#FFFFFF" d="
+    M 73,58 L 73,43
+    L 84,53 L 100,22 L 116,53
+    L 127,43 L 127,58
+    L 119,58 L 113,47 L 100,30 L 87,47 L 81,58
+    Z
+  "/>
+  <!-- Vnitřní oranžový diamant v koruně -->
+  <polygon fill="#ED8E11" points="100,56 112,64 112,77 100,85 88,77 88,64"/>
+
+  <!-- LEVÉ KŘÍDLO -->
+  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
+    d="M 85,66 L 8,54 L 6,82 L 50,100 L 79,94 Z"/>
+  <!-- Vnitřní rám křídla -->
+  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
+    d="M 80,70 L 22,60 L 20,79 L 54,92 L 76,87 Z"/>
+
+  <!-- PRAVÉ KŘÍDLO (zrcadlově) -->
+  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
+    d="M 115,66 L 192,54 L 194,82 L 150,100 L 121,94 Z"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
+    d="M 120,70 L 178,60 L 180,79 L 146,92 L 124,87 Z"/>
+
+  <!-- HRUDNÍK (centrální diamant) — oranžová výplň -->
+  <polygon fill="#ED8E11" points="100,57 131,84 100,111 69,84"/>
+  <polygon fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
+    points="100,57 131,84 100,111 69,84"/>
+
+  <!-- ZADEČEK — horní segment -->
+  <path fill="#ED8E11" d="M 77,111 L 123,111 L 115,148 L 85,148 Z"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
+    d="M 77,111 L 123,111 L 115,148 L 85,148 Z"/>
+  <!-- Horizontální pruh -->
+  <line x1="79" y1="129" x2="121" y2="129" stroke="#FFFFFF" stroke-width="6"/>
+
+  <!-- ZADEČEK — dolní segment -->
+  <path fill="#ED8E11" d="M 85,148 L 115,148 L 108,172 L 92,172 Z"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="miter"
+    d="M 85,148 L 115,148 L 108,172 L 92,172 Z"/>
+  <!-- Horizontální pruh -->
+  <line x1="87" y1="160" x2="113" y2="160" stroke="#FFFFFF" stroke-width="5"/>
+
+  <!-- ŽIHADLO -->
+  <path fill="#ED8E11" d="M 92,172 L 108,172 L 100,191 Z"/>
+  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
+    d="M 92,172 L 108,172 L 100,191 Z"/>
+</svg>

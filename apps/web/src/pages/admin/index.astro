@@ -1,0 +1,167 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { apiFetchSSR } from '../../lib/api-server';
+
+const cookie = Astro.request.headers.get("cookie");
+const token = cookie?.match(/admin_token=([^;]+)/)?.[1] ?? "";
+const origin = Astro.url.origin;
+
+type Inquiry = { id: number; schoolName: string; city: string; schoolType: string; contactName: string; createdAt: string }
+type Program = { id: number; slug: string; name: string; active: boolean }
+type Testimonial = { id: number; name: string; active: boolean }
+
+let inquiries: Inquiry[] = []
+let programs: Program[] = []
+let testimonials: Testimonial[] = []
+let error = ""
+
+try {
+  const [inqResult, progResult, testResult] = await Promise.allSettled([
+    apiFetchSSR<Inquiry[]>("/api/admin/inquiries", `admin_token=${token}`, origin),
+    apiFetchSSR<Program[]>("/api/admin/programs", `admin_token=${token}`, origin),
+    apiFetchSSR<Testimonial[]>("/api/admin/testimonials", `admin_token=${token}`, origin),
+  ])
+  if (inqResult.status === "fulfilled") inquiries = inqResult.value
+  if (progResult.status === "fulfilled") programs = progResult.value
+  if (testResult.status === "fulfilled") testimonials = testResult.value
+} catch (e) {
+  error = String(e)
+}
+
+const recentInquiries = inquiries.slice(0, 5)
+const activePrograms = programs.filter(p => p.active).length
+
+const schoolTypeLabels: Record<string, string> = {
+  ms: "MŠ", zs: "ZŠ", ss: "SŠ", other: "Jiné",
+}
+
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const hours = Math.floor(diff / 3600000)
+  if (hours < 1) return "před chvílí"
+  if (hours < 24) return `před ${hours}h`
+  const days = Math.floor(hours / 24)
+  if (days < 7) return `před ${days}d`
+  return `před ${Math.floor(days / 7)} týd.`
+}
+---
+
+<AdminLayout title="Dashboard | Admin">
+  <div class="flex flex-col gap-6">
+    <!-- Page Header -->
+    <div>
+      <h1 class="text-2xl font-bold text-text-dark font-heading leading-tight">Dashboard</h1>
+      <p class="text-sm text-text-muted mt-1">Přehled administrace Bee Champs Hub</p>
+    </div>
+
+    {error && (
+      <div class="px-4 py-3 rounded-lg text-sm font-medium bg-red-500/10 text-red-700">
+        {error}
+      </div>
+    )}
+
+    <!-- Stat karty (StatCard pattern) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Poptavek celkem -->
+      <div class="bg-white rounded-xl border border-black/6 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-sm font-medium text-text-muted">Poptávek celkem</h3>
+          <div class="w-10 h-10 flex items-center justify-center bg-bg-warm rounded-lg text-primary shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-3">
+          <span class="text-[2rem] font-bold text-text-dark leading-none font-heading">{inquiries.length}</span>
+        </div>
+        <p class="text-sm text-text-muted mt-2">Od spuštění platformy</p>
+      </div>
+
+      <!-- Aktivnich programu -->
+      <div class="bg-white rounded-xl border border-black/6 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-sm font-medium text-text-muted">Aktivních programů</h3>
+          <div class="w-10 h-10 flex items-center justify-center bg-green-500/10 rounded-lg text-green-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-3">
+          <span class="text-[2rem] font-bold text-text-dark leading-none font-heading">{activePrograms}</span>
+          <span class="text-sm font-medium text-text-muted">/ {programs.length}</span>
+        </div>
+        <p class="text-sm text-text-muted mt-2">Z celkových programů</p>
+      </div>
+
+      <!-- Referenci -->
+      <div class="bg-white rounded-xl border border-black/6 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-sm font-medium text-text-muted">Referencí</h3>
+          <div class="w-10 h-10 flex items-center justify-center bg-blue-500/10 rounded-lg text-blue-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-3">
+          <span class="text-[2rem] font-bold text-text-dark leading-none font-heading">{testimonials.length}</span>
+        </div>
+        <p class="text-sm text-text-muted mt-2">Hodnocení od škol</p>
+      </div>
+
+      <!-- Programu celkem -->
+      <div class="bg-white rounded-xl border border-black/6 p-6 hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between mb-4">
+          <h3 class="text-sm font-medium text-text-muted">Kategorií</h3>
+          <div class="w-10 h-10 flex items-center justify-center bg-purple-500/10 rounded-lg text-purple-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-3">
+          <span class="text-[2rem] font-bold text-text-dark leading-none font-heading">4</span>
+        </div>
+        <p class="text-sm text-text-muted mt-2">Sport, výlety, workshopy, události</p>
+      </div>
+    </div>
+
+    <!-- Posledni poptavky (Card + activity-list pattern) -->
+    <div class="bg-white rounded-xl border border-black/6 overflow-hidden">
+      <div class="px-6 py-5 border-b border-black/6 flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-semibold text-text-dark">Poslední poptávky</h3>
+          <p class="text-sm text-text-muted mt-0.5">Nejnovější poptávky od škol</p>
+        </div>
+        <a href="/admin/poptavky" class="text-sm font-semibold text-primary hover:text-primary-hover transition">
+          Zobrazit vše &rarr;
+        </a>
+      </div>
+      {recentInquiries.length === 0 ? (
+        <div class="flex flex-col items-center justify-center py-16 px-6 text-center">
+          <div class="w-16 h-16 flex items-center justify-center mb-4 text-text-muted/30">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <p class="text-base font-semibold text-text-dark mb-1">Žádné poptávky</p>
+          <p class="text-sm text-text-muted">Poptávky od škol se zobrazí zde</p>
+        </div>
+      ) : (
+        <div class="divide-y divide-black/6">
+          {recentInquiries.map((inq) => (
+            <a href={`/admin/poptavky?detail=${inq.id}`} class="flex items-center gap-4 px-6 py-4 hover:bg-black/1.5 transition group">
+              <div class="w-10 h-10 shrink-0 flex items-center justify-center bg-bg-warm rounded-lg text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4c0-1.1-.9-2-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="font-semibold text-text-dark text-[0.9375rem] group-hover:text-primary transition">{inq.schoolName}</span>
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-black/5 text-text-muted">{schoolTypeLabels[inq.schoolType] ?? inq.schoolType}</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-sm text-text-muted">
+                  <span>{inq.city}</span>
+                  <span class="text-text-muted/30">&middot;</span>
+                  <span>{inq.contactName}</span>
+                </div>
+              </div>
+              <span class="text-xs text-text-muted/50 shrink-0">{timeAgo(inq.createdAt)}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>

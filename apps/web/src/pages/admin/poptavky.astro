@@ -1,0 +1,27 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminInquiries from '../../components/admin/AdminInquiries.svelte';
+import { apiFetchSSR } from '../../lib/api-server';
+
+const cookie = Astro.request.headers.get("cookie");
+const token = cookie?.match(/admin_token=([^;]+)/)?.[1] ?? "";
+const origin = Astro.url.origin;
+
+type Inquiry = {
+  id: number; schoolName: string; schoolType: string; city: string;
+  childrenCount: number; ageRange: string; contactName: string;
+  contactPosition: string | null; contactPhone: string; contactEmail: string;
+  hasGym: string | null; hasPlayground: string | null; notes: string | null;
+  selectedPrograms: string; createdAt: string;
+}
+
+let inquiries: Inquiry[] = []
+
+try {
+  inquiries = await apiFetchSSR<Inquiry[]>("/api/admin/inquiries", `admin_token=${token}`, origin)
+} catch {}
+---
+
+<AdminLayout title="Poptávky | Admin" breadcrumbs={[{ label: "Dashboard", href: "/admin" }, { label: "Poptávky" }]}>
+  <AdminInquiries client:load initialInquiries={inquiries} adminToken={token} />
+</AdminLayout>

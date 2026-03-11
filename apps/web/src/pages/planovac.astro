@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Planner from '../components/planner/Planner.svelte';
+---
+
+<Layout title="Roční plánovač | Bee Champs Hub" description="Sestavte si kompletní školní rok — vyberte programy, přiřaďte je do měsíců a odešlete poptávku.">
+  <div class="pt-[68px]">
+    <Planner client:load />
+  </div>
+</Layout>

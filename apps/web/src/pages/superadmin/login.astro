@@ -1,0 +1,91 @@
+---
+import '../../styles/global.css';
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+    <title>Superadmin Login | Bee Champs Hub</title>
+  </head>
+  <body class="bg-[#0A0F1C] antialiased">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="w-full max-w-sm">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <div class="inline-flex bg-amber-500 p-3 rounded-2xl mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#0A0F1C]"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+          <h1 class="text-2xl font-bold text-white font-heading">Bee Champs <span class="text-amber-400">Super</span></h1>
+          <p class="text-slate-400 text-sm mt-1">Zadejte superadmin token</p>
+        </div>
+
+        <!-- Formulář -->
+        <form id="login-form" class="bg-[#0D1322] rounded-xl p-6 border border-white/[0.06]">
+          <div class="mb-4">
+            <label for="token" class="block text-sm font-medium text-slate-400 mb-2">Superadmin token</label>
+            <input
+              id="token"
+              name="token"
+              type="password"
+              required
+              placeholder="Zadejte token..."
+              class="w-full px-4 py-3 rounded-lg bg-[#0A0F1C] border border-white/[0.06] text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
+            />
+          </div>
+          <div id="error-msg" class="hidden mb-4 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-2"></div>
+          <button
+            type="submit"
+            class="w-full bg-amber-500 hover:bg-amber-600 text-[#0A0F1C] font-bold py-3 rounded-lg transition-colors"
+          >
+            Přihlásit se
+          </button>
+        </form>
+
+        <div class="text-center mt-6">
+          <a href="/admin" class="text-sm text-slate-400 hover:text-amber-400 transition-colors">
+            &larr; Zpět do adminu
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('login-form')
+      const errorMsg = document.getElementById('error-msg')
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        errorMsg?.classList.add('hidden')
+
+        const token = new FormData(form).get('token')
+
+        try {
+          const res = await fetch('/api/superadmin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ token }),
+          })
+
+          if (res.ok) {
+            document.cookie = `superadmin_token=${token}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`
+            window.location.href = '/superadmin'
+          } else {
+            errorMsg.textContent = 'Neplatný token'
+            errorMsg?.classList.remove('hidden')
+          }
+        } catch {
+          errorMsg.textContent = 'Chyba připojení k serveru'
+          errorMsg?.classList.remove('hidden')
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+---
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/home/HeroSection.astro';
+import CategoriesSection from '@components/home/CategoriesSection.astro';
+import HowItWorksSection from '@components/home/HowItWorksSection.astro';
+import TestimonialsSection from '@components/home/TestimonialsSection.astro';
+import CtaSection from '@components/home/CtaSection.astro';
+import { apiFetchSSR } from '../lib/api-server';
+import type { Category } from '@bee-champs/shared';
+
+type Testimonial = { id: number; text: string; name: string; role: string; initials: string }
+
+const origin = Astro.url.origin;
+
+let categories: Category[] = [];
+let testimonials: Testimonial[] = [];
+let settings: Record<string, string> = {};
+
+try {
+  const [catResult, testResult, settResult] = await Promise.allSettled([
+    apiFetchSSR<Category[]>("/api/categories", null, origin),
+    apiFetchSSR<Testimonial[]>("/api/testimonials", null, origin),
+    apiFetchSSR<Record<string, string>>("/api/settings/public", null, origin),
+  ]);
+  if (catResult.status === "fulfilled") categories = catResult.value;
+  if (testResult.status === "fulfilled") testimonials = testResult.value;
+  if (settResult.status === "fulfilled") settings = settResult.value;
+} catch {}
+---
+
+<Layout>
+  <HeroSection {settings} />
+  <CategoriesSection {categories} />
+  <HowItWorksSection />
+  <TestimonialsSection {testimonials} />
+  <CtaSection />
+</Layout>

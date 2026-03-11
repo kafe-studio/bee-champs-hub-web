@@ -1,0 +1,10 @@
+---
+import SuperadminLayout from '../../layouts/SuperadminLayout.astro';
+import WorkerLogs from '../../components/superadmin/WorkerLogs.svelte';
+
+const superadminToken = (Astro.locals as Record<string, unknown>).superadminToken as string;
+---
+
+<SuperadminLayout title="Worker Logy | Superadmin">
+  <WorkerLogs client:load {superadminToken} />
+</SuperadminLayout>

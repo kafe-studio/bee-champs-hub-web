@@ -1,0 +1,23 @@
+{
+  "name": "@bee-champs/db",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts"
+  },
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@bee-champs/shared": "workspace:*",
+    "drizzle-orm": "^0.45.1",
+    "effect": "^3.19.19"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.9",
+    "typescript": "^5.7.0"
+  }
+}
