@@ -72,6 +72,20 @@
     } finally { saving = false }
   }
 
+  async function toggleActive(t: Testimonial) {
+    const newActive = !t.active
+    try {
+      const result = await apiFetch<Testimonial>(`/admin/testimonials/${t.id}`, {
+        method: "PUT", headers: authHeaders,
+        body: JSON.stringify({ text: t.text, name: t.name, role: t.role, initials: t.initials, active: newActive, sortOrder: t.sortOrder }),
+      })
+      items = items.map(i => i.id === t.id ? result : i)
+      showMessage(newActive ? "Reference aktivována" : "Reference deaktivována", "success")
+    } catch (e) {
+      showMessage(e instanceof Error ? e.message : "Chyba", "error")
+    }
+  }
+
   async function deleteItem(t: Testimonial) {
     if (!confirm(`Smazat referenci od "${t.name}"?`)) return
     try {
@@ -211,6 +225,12 @@
                 </td>
                 <td class="px-4 py-3.5 text-right">
                   <div class="flex items-center justify-end gap-1">
+                    <button
+                      onclick={() => toggleActive(item)}
+                      class="px-3 py-1.5 text-xs font-medium rounded-md border transition {item.active ? 'border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100' : 'border-green-300 bg-green-50 text-green-700 hover:bg-green-100'}"
+                    >
+                      {item.active ? "Deaktivovat" : "Aktivovat"}
+                    </button>
                     <button
                       onclick={() => editingId === item.id ? cancelEdit() : startEdit(item)}
                       class="px-3 py-1.5 text-xs font-medium rounded-md transition {editingId === item.id ? 'bg-primary-dark text-white' : 'bg-primary text-bg-primary hover:bg-primary-hover'}"
