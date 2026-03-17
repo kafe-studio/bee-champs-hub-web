@@ -1,55 +1,10 @@
-<svg viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bee Champs logo">
-  <!--
-    Bee Champs geometrické logo — negativní provedení (bílé kontury na tmavém podkladu)
-    Barvy: oranžová #ED8E11 (primární výplně), bílá #FFFFFF (kontury)
-    Dle logomanuálu str. 6 — negativní provedení pro tmavý podklad
-  -->
-
-  <!-- KORUNA (nahoře, středem na x=100) -->
-  <path fill="#FFFFFF" d="
-    M 73,58 L 73,43
-    L 84,53 L 100,22 L 116,53
-    L 127,43 L 127,58
-    L 119,58 L 113,47 L 100,30 L 87,47 L 81,58
-    Z
-  "/>
-  <!-- Vnitřní oranžový diamant v koruně -->
-  <polygon fill="#ED8E11" points="100,56 112,64 112,77 100,85 88,77 88,64"/>
-
-  <!-- LEVÉ KŘÍDLO -->
-  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
-    d="M 85,66 L 8,54 L 6,82 L 50,100 L 79,94 Z"/>
-  <!-- Vnitřní rám křídla -->
-  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
-    d="M 80,70 L 22,60 L 20,79 L 54,92 L 76,87 Z"/>
-
-  <!-- PRAVÉ KŘÍDLO (zrcadlově) -->
-  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
-    d="M 115,66 L 192,54 L 194,82 L 150,100 L 121,94 Z"/>
-  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
-    d="M 120,70 L 178,60 L 180,79 L 146,92 L 124,87 Z"/>
-
-  <!-- HRUDNÍK (centrální diamant) — oranžová výplň -->
-  <polygon fill="#ED8E11" points="100,57 131,84 100,111 69,84"/>
-  <polygon fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
-    points="100,57 131,84 100,111 69,84"/>
-
-  <!-- ZADEČEK — horní segment -->
-  <path fill="#ED8E11" d="M 77,111 L 123,111 L 115,148 L 85,148 Z"/>
-  <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter"
-    d="M 77,111 L 123,111 L 115,148 L 85,148 Z"/>
-  <!-- Horizontální pruh -->
-  <line x1="79" y1="129" x2="121" y2="129" stroke="#FFFFFF" stroke-width="6"/>
-
-  <!-- ZADEČEK — dolní segment -->
-  <path fill="#ED8E11" d="M 85,148 L 115,148 L 108,172 L 92,172 Z"/>
-  <path fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="miter"
-    d="M 85,148 L 115,148 L 108,172 L 92,172 Z"/>
-  <!-- Horizontální pruh -->
-  <line x1="87" y1="160" x2="113" y2="160" stroke="#FFFFFF" stroke-width="5"/>
-
-  <!-- ŽIHADLO -->
-  <path fill="#ED8E11" d="M 92,172 L 108,172 L 100,191 Z"/>
-  <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="miter"
-    d="M 92,172 L 108,172 L 100,191 Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566.929 566.929" role="img" aria-label="Bee Champs Hub logo">
+  <path fill="#ffffff" d="M319.742,227.229l-36.278-15.004-36.278,15.004-6.626-56.738,23.531,15.711,19.373-27.881,19.373,27.881,23.531-15.711-6.626,56.738ZM283.464,201.241l27.752,11.48,2.521-21.592-13.551,9.048-16.722-24.067-16.722,24.067-13.551-9.048,2.521,21.592,27.752-11.48Z"/>
+  <polygon fill="#ffffff" points="283.464 294.075 248.756 313.796 253.892 370.938 283.464 408.608 313.037 370.938 318.173 313.796 283.464 294.075"/>
+  <polygon fill="#F5A623" points="305.851 337.501 307.479 319.393 283.464 305.75 259.45 319.393 261.078 337.501 305.851 337.501"/>
+  <polygon fill="#F5A623" points="283.455 357.399 304.06 357.437 304.939 347.651 261.99 347.651 262.87 357.437 283.455 357.399"/>
+  <polygon fill="#F5A623" points="302.765 367.584 283.455 367.55 264.164 367.584 283.464 392.169 302.765 367.584"/>
+  <polygon fill="#ffffff" points="283.464 217.247 247.841 231.981 250.343 253.4 283.464 272.219 316.587 253.4 319.088 231.981 283.464 217.247"/>
+  <polygon fill="#F5A623" points="258.813 238.428 259.828 247.116 283.464 260.545 307.102 247.116 308.117 238.428 283.464 228.232 258.813 238.428"/>
+  <path fill="#ffffff" d="M283.464,277.311l-112.408-63.869v61.923l68.189,38.743,44.219-25.124,44.22,25.124,68.189-38.743v-61.923l-112.409,63.869ZM181.206,230.884l10.096,5.737.113,38.637-10.209-5.801v-38.573ZM239.245,302.434l-37.664-21.398-.112-38.637,71.722,40.75-33.946,19.286ZM293.738,283.147l71.637-40.702.113,38.51-37.804,21.479-33.946-19.286ZM385.723,269.458l-10.102,5.74-.112-38.51,10.214-5.804v38.573Z"/>
 </svg>
