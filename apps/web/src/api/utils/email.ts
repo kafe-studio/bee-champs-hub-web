@@ -107,7 +107,7 @@ export const sendInquiryNotification = (params: {
 
   return sendEmail({
     apiKey: params.apiKey,
-    from: "Bee Champs Hub <noreply@pefen.dev>",
+    from: "Bee Champs Hub <noreply@beechampshub.cz>",
     to: params.to,
     subject: `Nová poptávka — ${params.schoolName} (${params.city})`,
     html: `<!DOCTYPE html>
