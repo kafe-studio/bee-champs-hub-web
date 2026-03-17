@@ -67,6 +67,7 @@ function getActiveLabel(): string {
           {navItems.map((item) => (
             <a
               href={item.href}
+              data-nav-href={item.href}
               class:list={[
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 isActive(item.href)
@@ -128,6 +129,7 @@ function getActiveLabel(): string {
           {navItems.map((item) => (
             <a
               href={item.href}
+              data-nav-href={item.href}
               class:list={[
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 isActive(item.href)
@@ -172,7 +174,7 @@ function getActiveLabel(): string {
             ) : (
               <>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-muted/40"><path d="m9 18 6-6-6-6"/></svg>
-                <span class="text-text-dark font-medium">{getActiveLabel()}</span>
+                <span class="text-text-dark font-medium" data-active-label>{getActiveLabel()}</span>
               </>
             )}
           </nav>
@@ -230,8 +232,45 @@ function getActiveLabel(): string {
         })
       }
 
+      /** Aktualizuje aktivní stav navigace po View Transition */
+      function updateActiveNav() {
+        const path = window.location.pathname
+        document.querySelectorAll('[data-nav-href]').forEach((link) => {
+          const href = link.getAttribute('data-nav-href') ?? ''
+          const active = href === '/admin'
+            ? (path === '/admin' || path === '/admin/')
+            : path.startsWith(href)
+          if (active) {
+            link.classList.remove('text-text-secondary', 'hover:bg-white/5', 'hover:text-white')
+            link.classList.add('bg-primary/15', 'text-primary')
+          } else {
+            link.classList.remove('bg-primary/15', 'text-primary')
+            link.classList.add('text-text-secondary', 'hover:bg-white/5', 'hover:text-white')
+          }
+        })
+
+        // Aktualizace breadcrumb labelu
+        const breadcrumbLabel = document.querySelector('[data-active-label]')
+        if (breadcrumbLabel) {
+          const items = [
+            { href: '/admin', label: 'Dashboard' },
+            { href: '/admin/programy', label: 'Programy' },
+            { href: '/admin/poptavky', label: 'Poptávky' },
+            { href: '/admin/reference', label: 'Reference' },
+            { href: '/admin/nastaveni', label: 'Nastavení' },
+          ]
+          const match = items.find(i =>
+            i.href === '/admin'
+              ? (path === '/admin' || path === '/admin/')
+              : path.startsWith(i.href)
+          )
+          breadcrumbLabel.textContent = match?.label ?? 'Admin'
+        }
+      }
+
       initAdminNav()
-      document.addEventListener('astro:page-load', initAdminNav)
+      updateActiveNav()
+      document.addEventListener('astro:page-load', () => { initAdminNav(); updateActiveNav() })
     </script>
   </body>
 </html>
