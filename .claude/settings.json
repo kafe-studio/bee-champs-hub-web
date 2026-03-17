@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "Agent",
+      "TodoWrite",
+      "Skill",
+      "NotebookEdit"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review whether the assistant properly audited its work before finishing. Check if: 1) All changed files were read back and verified, 2) Type-check and lint were run with 0 errors, 3) Logic was reviewed for edge cases and correctness, 4) No lazy shortcuts (hardcoded values, TODO placeholders, copy-paste leftovers, missing error handling), 5) Security was considered (no injection, no exposed secrets, input validation). If the assistant skipped the audit or did it superficially, respond with {\"ok\": false, \"reason\": \"You need to audit your work: [specific items missing]\"}. If the audit was thorough, respond with {\"ok\": true}."
+          }
+        ]
+      }
+    ]
+  }
+}
