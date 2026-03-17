@@ -32,7 +32,8 @@ const stat3Label = settings.stat3_label ?? t.hero.stat3Label;
   <div class="absolute inset-0 honeycomb-bg opacity-30 pointer-events-none"></div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
-    <div class="max-w-2xl fade-up">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div class="max-w-2xl fade-up pt-12 lg:pt-16">
       <h1 class="text-4xl sm:text-5xl lg:text-[4rem] font-heading font-bold mb-6 leading-[1.05] text-white uppercase">
         {t.hero.title}<br />
         <span class="text-primary">{t.hero.titleHighlight}</span>
@@ -40,15 +41,15 @@ const stat3Label = settings.stat3_label ?? t.hero.stat3Label;
 
       <!-- Bullet pointy pod nadpisem -->
       <ul class="space-y-2 mb-10">
-        <li class="flex items-center gap-3 text-white/80 text-lg">
+        <li class="flex items-center gap-3 text-white/90 text-lg">
           <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
           Všestranný sportovní program
         </li>
-        <li class="flex items-center gap-3 text-white/80 text-lg">
+        <li class="flex items-center gap-3 text-white/90 text-lg">
           <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
           Motivace a inspirace
         </li>
-        <li class="flex items-center gap-3 text-white/80 text-lg">
+        <li class="flex items-center gap-3 text-white/90 text-lg">
           <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
           Individuální přístup
         </li>
@@ -75,17 +76,23 @@ const stat3Label = settings.stat3_label ?? t.hero.stat3Label;
       <div class="mt-14 flex gap-8 sm:gap-12">
         <div>
           <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat1Value}</h4>
-          <p class="text-white/50 text-sm uppercase tracking-wider">{stat1Label}</p>
+          <p class="text-white/70 text-sm uppercase tracking-wider">{stat1Label}</p>
         </div>
         <div>
           <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat2Value}</h4>
-          <p class="text-white/50 text-sm uppercase tracking-wider">{stat2Label}</p>
+          <p class="text-white/70 text-sm uppercase tracking-wider">{stat2Label}</p>
         </div>
         <div>
           <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat3Value}</h4>
-          <p class="text-white/50 text-sm uppercase tracking-wider">{stat3Label}</p>
+          <p class="text-white/70 text-sm uppercase tracking-wider">{stat3Label}</p>
         </div>
       </div>
+    </div>
+
+    {/* Logo v pravém sloupci — pouze desktop */}
+    <div class="hidden lg:flex items-center justify-center fade-up" style="transition-delay: 0.2s;">
+      <img src="/logo.svg" alt="Bee Champs Hub" class="w-[400px] h-[400px] drop-shadow-[0_0_60px_rgba(236,140,17,0.2)]" />
+    </div>
     </div>
   </div>
 
