@@ -1,5 +1,5 @@
 ---
-import { CalendarRange, CircleCheckBig } from '@lucide/astro';
+import { CalendarRange } from '@lucide/astro';
 import { t } from '@i18n';
 
 interface Props {
@@ -8,7 +8,6 @@ interface Props {
 
 const { settings = {} } = Astro.props;
 
-// Statistiky z DB nastaveni, fallback na i18n
 const stat1Value = settings.stat1_value ?? t.hero.stat1Value;
 const stat1Label = settings.stat1_label ?? t.hero.stat1Label;
 const stat2Value = settings.stat2_value ?? t.hero.stat2Value;
@@ -17,81 +16,82 @@ const stat3Value = settings.stat3_value ?? t.hero.stat3Value;
 const stat3Label = settings.stat3_label ?? t.hero.stat3Label;
 ---
 
-<section class="relative pt-14 pb-16 overflow-hidden bg-bg-primary text-white">
-  <!-- Dekorativní bloby -->
-  <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/10 blur-[100px] pointer-events-none"></div>
-  <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-cat-projects/10 blur-[80px] pointer-events-none"></div>
+<section class="relative min-h-[85vh] flex items-center overflow-hidden bg-bg-primary">
+  <!-- Pozadí — obrázek s tmavým gradientem -->
+  <div class="absolute inset-0">
+    <img
+      src="/images/hero.avif"
+      alt=""
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-[rgba(17,17,17,0.92)] via-[rgba(17,17,17,0.6)] to-[rgba(236,140,17,0.1)]"></div>
+  </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
-      <!-- Levý sloupec — text -->
-      <div class="max-w-2xl fade-up">
-        <h1 class="text-3xl sm:text-5xl lg:text-[3.5rem] font-heading font-extrabold mb-6 leading-[1.1] text-white">
-          {t.hero.title} <span class="text-primary">{t.hero.titleHighlight}</span>
-        </h1>
+  <!-- Honeycomb dekorativní pattern -->
+  <div class="absolute inset-0 honeycomb-bg opacity-30 pointer-events-none"></div>
 
-        <p class="text-xl text-white/80 mb-10 text-balance">
-          {t.hero.subtitle}
-        </p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
+    <div class="max-w-2xl fade-up">
+      <h1 class="text-4xl sm:text-5xl lg:text-[4rem] font-heading font-bold mb-6 leading-[1.05] text-white uppercase">
+        {t.hero.title}<br />
+        <span class="text-primary">{t.hero.titleHighlight}</span>
+      </h1>
 
-        <!-- CTA tlačítka -->
-        <div class="flex flex-wrap gap-3 sm:gap-4">
-          <a
-            href="/planovac"
-            class="px-6 py-3 sm:px-8 sm:py-4 bg-primary hover:bg-primary-hover text-bg-primary rounded-xl font-bold text-base sm:text-lg shadow-[0_0_30px_rgba(245,166,35,0.3)] hover:shadow-[0_0_40px_rgba(245,166,35,0.5)] transition-all duration-300 flex items-center gap-2"
-          >
-            <CalendarRange class="w-5 h-5" />
-            {t.hero.openPlanner}
-          </a>
-          <a
-            href="#kategorie"
-            class="px-6 py-3 sm:px-8 sm:py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl font-bold text-base sm:text-lg transition-all duration-300"
-          >
-            {t.common.browsePrograms}
-          </a>
-        </div>
+      <!-- Bullet pointy pod nadpisem -->
+      <ul class="space-y-2 mb-10">
+        <li class="flex items-center gap-3 text-white/80 text-lg">
+          <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
+          Všestranný sportovní program
+        </li>
+        <li class="flex items-center gap-3 text-white/80 text-lg">
+          <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
+          Motivace a inspirace
+        </li>
+        <li class="flex items-center gap-3 text-white/80 text-lg">
+          <span class="w-2 h-2 bg-primary rounded-full shrink-0"></span>
+          Individuální přístup
+        </li>
+      </ul>
 
-        <!-- Statistiky -->
-        <div class="mt-12 flex gap-6 sm:gap-8">
-          <div>
-            <h4 class="text-3xl font-heading font-bold text-white mb-1">{stat1Value}</h4>
-            <p class="text-white/60 text-sm">{stat1Label}</p>
-          </div>
-          <div>
-            <h4 class="text-3xl font-heading font-bold text-white mb-1">{stat2Value}</h4>
-            <p class="text-white/60 text-sm">{stat2Label}</p>
-          </div>
-          <div>
-            <h4 class="text-3xl font-heading font-bold text-white mb-1">{stat3Value}</h4>
-            <p class="text-white/60 text-sm">{stat3Label}</p>
-          </div>
-        </div>
+      <!-- CTA tlačítka — skosený styl -->
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/planovac"
+          class="btn-skew bg-primary hover:bg-primary-hover text-bg-primary px-10 py-4 font-bold text-lg inline-flex items-center gap-2 transition-all"
+        >
+          <CalendarRange class="w-5 h-5" />
+          {t.hero.openPlanner}
+        </a>
+        <a
+          href="#kategorie"
+          class="btn-skew bg-white/10 hover:bg-white/20 text-white border border-white/20 px-10 py-4 font-bold text-lg transition-all"
+        >
+          {t.common.browsePrograms}
+        </a>
       </div>
 
-      <!-- Pravý sloupec — logo SVG -->
-      <div class="relative hidden lg:flex items-center justify-center fade-up" style="transition-delay: 0.2s;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566.929 566.929" role="img" aria-label="Bee Champs Hub logo" class="w-[560px] h-[560px] drop-shadow-2xl">
-          <path fill="#ffffff" d="M319.742,227.229l-36.278-15.004-36.278,15.004-6.626-56.738,23.531,15.711,19.373-27.881,19.373,27.881,23.531-15.711-6.626,56.738ZM283.464,201.241l27.752,11.48,2.521-21.592-13.551,9.048-16.722-24.067-16.722,24.067-13.551-9.048,2.521,21.592,27.752-11.48Z"/>
-          <polygon fill="#ffffff" points="283.464 294.075 248.756 313.796 253.892 370.938 283.464 408.608 313.037 370.938 318.173 313.796 283.464 294.075"/>
-          <polygon fill="#F5A623" points="305.851 337.501 307.479 319.393 283.464 305.75 259.45 319.393 261.078 337.501 305.851 337.501"/>
-          <polygon fill="#F5A623" points="283.455 357.399 304.06 357.437 304.939 347.651 261.99 347.651 262.87 357.437 283.455 357.399"/>
-          <polygon fill="#F5A623" points="302.765 367.584 283.455 367.55 264.164 367.584 283.464 392.169 302.765 367.584"/>
-          <polygon fill="#ffffff" points="283.464 217.247 247.841 231.981 250.343 253.4 283.464 272.219 316.587 253.4 319.088 231.981 283.464 217.247"/>
-          <polygon fill="#F5A623" points="258.813 238.428 259.828 247.116 283.464 260.545 307.102 247.116 308.117 238.428 283.464 228.232 258.813 238.428"/>
-          <path fill="#ffffff" d="M283.464,277.311l-112.408-63.869v61.923l68.189,38.743,44.219-25.124,44.22,25.124,68.189-38.743v-61.923l-112.409,63.869ZM181.206,230.884l10.096,5.737.113,38.637-10.209-5.801v-38.573ZM239.245,302.434l-37.664-21.398-.112-38.637,71.722,40.75-33.946,19.286ZM293.738,283.147l71.637-40.702.113,38.51-37.804,21.479-33.946-19.286ZM385.723,269.458l-10.102,5.74-.112-38.51,10.214-5.804v38.573Z"/>
-        </svg>
-
-        <!-- Plovoucí kartička -->
-        <div class="absolute -bottom-6 -left-6 bg-white text-bg-primary p-6 rounded-2xl flex items-center gap-4 shadow-xl">
-          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-            <CircleCheckBig class="w-6 h-6" />
-          </div>
-          <div>
-            <p class="font-bold font-heading">{t.hero.easyPlanning}</p>
-            <p class="text-sm text-text-muted">{t.hero.saveTime}</p>
-          </div>
+      <!-- Statistiky -->
+      <div class="mt-14 flex gap-8 sm:gap-12">
+        <div>
+          <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat1Value}</h4>
+          <p class="text-white/50 text-sm uppercase tracking-wider">{stat1Label}</p>
+        </div>
+        <div>
+          <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat2Value}</h4>
+          <p class="text-white/50 text-sm uppercase tracking-wider">{stat2Label}</p>
+        </div>
+        <div>
+          <h4 class="text-3xl font-heading font-bold text-primary mb-1">{stat3Value}</h4>
+          <p class="text-white/50 text-sm uppercase tracking-wider">{stat3Label}</p>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 z-10">
+    <span class="text-xs uppercase tracking-[0.2em]">scroll</span>
+    <div class="w-px h-8 bg-gradient-to-b from-primary to-transparent"></div>
   </div>
 </section>

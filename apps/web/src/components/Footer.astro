@@ -2,12 +2,13 @@
 import { siteData } from '@data/siteData';
 ---
 
-<footer class="bg-bg-primary border-t border-primary pt-12 pb-6">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<footer class="bg-bg-primary relative">
+  <div class="honey-divider"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      <!-- Logo + tagline -->
+      {/* Logo + tagline */}
       <div class="md:col-span-1">
-        <!-- Logo dle logomanuálu -->
         <a href="/" class="flex items-center gap-3 mb-4">
           <img src="/logo.svg" alt="Bee Champs" width="40" height="40" class="shrink-0" />
           <span class="text-xl font-bold font-heading text-white tracking-wide uppercase">
@@ -19,9 +20,9 @@ import { siteData } from '@data/siteData';
         </p>
       </div>
 
-      <!-- Programy -->
+      {/* Programy */}
       <div>
-        <h3 class="text-white font-semibold mb-4">Programy</h3>
+        <h3 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Programy</h3>
         <ul class="space-y-2">
           <li><a href="/sport" class="text-text-secondary hover:text-primary transition-colors text-sm">Sport</a></li>
           <li><a href="/vzdelavani" class="text-text-secondary hover:text-primary transition-colors text-sm">Vzdělávání</a></li>
@@ -30,17 +31,17 @@ import { siteData } from '@data/siteData';
         </ul>
       </div>
 
-      <!-- Nástroje -->
+      {/* Nástroje */}
       <div>
-        <h3 class="text-white font-semibold mb-4">Nástroje</h3>
+        <h3 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Nástroje</h3>
         <ul class="space-y-2">
           <li><a href="/planovac" class="text-text-secondary hover:text-primary transition-colors text-sm">Roční plánovač</a></li>
         </ul>
       </div>
 
-      <!-- Kontakt -->
+      {/* Kontakt */}
       <div>
-        <h3 class="text-white font-semibold mb-4">Kontakt</h3>
+        <h3 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Kontakt</h3>
         <ul class="space-y-2">
           <li>
             <a href={`mailto:${siteData.email}`} class="text-text-secondary hover:text-primary transition-colors text-sm">
@@ -51,11 +52,10 @@ import { siteData } from '@data/siteData';
       </div>
     </div>
 
-    <!-- Copyright -->
-    <div class="border-t border-border-primary pt-6">
-      <p class="text-text-muted text-sm text-center">
-        &copy; {new Date().getFullYear()} Bee Champs Hub. Všechna práva vyhrazena.
-      </p>
-    </div>
+    {/* Copyright */}
+    <div class="honey-divider mb-6"></div>
+    <p class="text-text-secondary/60 text-sm text-center">
+      &copy; {new Date().getFullYear()} BEE CHAMPS HUB. Všechna práva vyhrazena.
+    </p>
   </div>
 </footer>
