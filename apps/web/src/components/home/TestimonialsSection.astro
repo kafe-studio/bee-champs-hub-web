@@ -20,9 +20,6 @@ const { testimonials } = Astro.props;
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-up">
       {testimonials.map((t) => (
         <div class="bg-bg-warm rounded-xl p-6 border border-border-light">
-          <!-- Uvozovka -->
-          <div class="text-5xl text-primary font-heading leading-none mb-2">&ldquo;</div>
-
           <!-- Hvězdičky -->
           <div class="flex gap-1 mb-4">
             {[1, 2, 3, 4, 5].map(() => (
