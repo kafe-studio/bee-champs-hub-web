@@ -11,8 +11,10 @@
 
   let isOpen = $state(true)
 
-  // Persistuje formulářová data v sessionStorage, aby přežila zavření/otevření modálu
-  const STORAGE_KEY = "inquiry_form_draft"
+  // Profil školy — údaje z předchozího odeslání, uložené v localStorage
+  const PROFILE_KEY = "inquiry_school_profile"
+  // Rozpracovaný draft — přežije zavření/otevření modálu v rámci session
+  const DRAFT_KEY = "inquiry_form_draft"
 
   type FormData = {
     schoolName: string; schoolType: string; city: string; childrenCount: string
@@ -21,17 +23,42 @@
     hasPlayground: string; notes: string
   }
 
+  // Profil z minulého odeslání (localStorage — přežije zavření prohlížeče)
+  type SchoolProfile = Omit<FormData, "notes">
+
+  function loadProfile(): SchoolProfile | null {
+    try {
+      const raw = localStorage.getItem(PROFILE_KEY)
+      if (raw) return JSON.parse(raw) as SchoolProfile
+    } catch { /* ignorovat */ }
+    return null
+  }
+
+  function saveProfile() {
+    try {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify({
+        schoolName, schoolType, city, childrenCount, ageRange,
+        contactName, contactPosition, contactPhone, contactEmail,
+        hasGym, hasPlayground,
+      }))
+    } catch { /* ignorovat */ }
+  }
+
+  // Draft z aktuální session (sessionStorage — přežije zavření modálu)
   function loadDraft(): FormData {
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY)
+      const raw = sessionStorage.getItem(DRAFT_KEY)
       if (raw) return JSON.parse(raw) as FormData
     } catch { /* ignorovat */ }
+    // Pokud není draft, zkusit načíst profil z minulého odeslání
+    const profile = loadProfile()
+    if (profile) return { ...profile, notes: "" }
     return { schoolName: "", schoolType: "", city: "", childrenCount: "", ageRange: "", contactName: "", contactPosition: "", contactPhone: "", contactEmail: "", hasGym: "", hasPlayground: "", notes: "" }
   }
 
   function saveDraft() {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify({
         schoolName, schoolType, city, childrenCount, ageRange,
         contactName, contactPosition, contactPhone, contactEmail,
         hasGym, hasPlayground, notes,
@@ -40,7 +67,7 @@
   }
 
   function clearDraft() {
-    try { sessionStorage.removeItem(STORAGE_KEY) } catch { /* ignorovat */ }
+    try { sessionStorage.removeItem(DRAFT_KEY) } catch { /* ignorovat */ }
   }
 
   const draft = loadDraft()
@@ -59,7 +86,6 @@
 
   // Uložit draft při každé změně
   $effect(() => {
-    // Přečíst všechny reaktivní hodnoty, aby se effect spustil při změně
     void [schoolName, schoolType, city, childrenCount, ageRange, contactName, contactPosition, contactPhone, contactEmail, hasGym, hasPlayground, notes]
     saveDraft()
   })
@@ -167,6 +193,7 @@
 
       if (response.ok) {
         success = true
+        saveProfile()
         clearDraft()
         planner.clearAll()
       } else {
