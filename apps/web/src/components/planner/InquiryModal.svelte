@@ -11,19 +11,58 @@
 
   let isOpen = $state(true)
 
+  // Persistuje formulářová data v sessionStorage, aby přežila zavření/otevření modálu
+  const STORAGE_KEY = "inquiry_form_draft"
 
-  let schoolName = $state("")
-  let schoolType = $state("")
-  let city = $state("")
-  let childrenCount = $state("")
-  let ageRange = $state("")
-  let contactName = $state("")
-  let contactPosition = $state("")
-  let contactPhone = $state("")
-  let contactEmail = $state("")
-  let hasGym = $state("")
-  let hasPlayground = $state("")
-  let notes = $state("")
+  type FormData = {
+    schoolName: string; schoolType: string; city: string; childrenCount: string
+    ageRange: string; contactName: string; contactPosition: string
+    contactPhone: string; contactEmail: string; hasGym: string
+    hasPlayground: string; notes: string
+  }
+
+  function loadDraft(): FormData {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY)
+      if (raw) return JSON.parse(raw) as FormData
+    } catch { /* ignorovat */ }
+    return { schoolName: "", schoolType: "", city: "", childrenCount: "", ageRange: "", contactName: "", contactPosition: "", contactPhone: "", contactEmail: "", hasGym: "", hasPlayground: "", notes: "" }
+  }
+
+  function saveDraft() {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        schoolName, schoolType, city, childrenCount, ageRange,
+        contactName, contactPosition, contactPhone, contactEmail,
+        hasGym, hasPlayground, notes,
+      }))
+    } catch { /* ignorovat */ }
+  }
+
+  function clearDraft() {
+    try { sessionStorage.removeItem(STORAGE_KEY) } catch { /* ignorovat */ }
+  }
+
+  const draft = loadDraft()
+  let schoolName = $state(draft.schoolName)
+  let schoolType = $state(draft.schoolType)
+  let city = $state(draft.city)
+  let childrenCount = $state(draft.childrenCount)
+  let ageRange = $state(draft.ageRange)
+  let contactName = $state(draft.contactName)
+  let contactPosition = $state(draft.contactPosition)
+  let contactPhone = $state(draft.contactPhone)
+  let contactEmail = $state(draft.contactEmail)
+  let hasGym = $state(draft.hasGym)
+  let hasPlayground = $state(draft.hasPlayground)
+  let notes = $state(draft.notes)
+
+  // Uložit draft při každé změně
+  $effect(() => {
+    // Přečíst všechny reaktivní hodnoty, aby se effect spustil při změně
+    void [schoolName, schoolType, city, childrenCount, ageRange, contactName, contactPosition, contactPhone, contactEmail, hasGym, hasPlayground, notes]
+    saveDraft()
+  })
 
   let submitting = $state(false)
   let success = $state(false)
@@ -128,6 +167,7 @@
 
       if (response.ok) {
         success = true
+        clearDraft()
         planner.clearAll()
       } else {
         const data = await response.json().catch(() => null)

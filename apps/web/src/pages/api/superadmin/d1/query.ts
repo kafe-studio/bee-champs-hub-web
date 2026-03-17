@@ -37,10 +37,11 @@ export const POST: APIRoute = (context) => {
         catch: (cause) => new ValidationError({ message: String(cause) }),
       })
 
+      const d1Result = result as { results?: unknown[]; meta?: Record<string, unknown> }
       return Response.json({
         data: {
-          results: result.results ?? [],
-          meta: result.meta ?? {},
+          results: d1Result.results ?? [],
+          meta: d1Result.meta ?? {},
         },
       })
     })

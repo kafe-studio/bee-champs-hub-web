@@ -46,26 +46,28 @@ export const makeAstroRuntime = <R>(
   handler: (context: APIContext, env: Env) => Effect.Effect<Response, AppError, R>
 ) => (context: APIContext): Promise<Response> => {
   const env = getEnv(context)
-  const effect = handler(context, env)
-  return ManagedRuntime.make(layerBuilder(env)).runPromise(
-    pipe(
-      effect,
-      Effect.catchAll((error) => {
-        const msg = "message" in error ? error.message : "cause" in error ? String(error.cause) : String(error)
-        console.error(`[makeAstroRuntime] ${error._tag}:`, msg)
-        return Effect.succeed(
-          Response.json(
-            { error: msg, detail: "detail" in error ? error.detail : undefined },
-            { status: errorToStatus(error._tag) },
-          )
-        )
-      }),
-      Effect.catchAllDefect((defect) => {
-        console.error("[makeAstroRuntime] Defect:", defect)
-        return Effect.succeed(
-          Response.json({ error: "Internal Server Error", detail: String(defect) }, { status: 500 })
-        )
-      }),
+
+  const handleAppError = (error: AppError): Effect.Effect<Response> => {
+    const e = error as unknown as Record<string, unknown>
+    const msg = typeof e.message === "string" ? e.message : "cause" in e ? String(e.cause) : String(error)
+    console.error(`[makeAstroRuntime] ${error._tag}:`, msg)
+    return Effect.succeed(
+      Response.json(
+        { error: msg, detail: typeof e.detail === "string" ? e.detail : undefined },
+        { status: errorToStatus(error._tag) },
+      )
     )
+  }
+
+  const handled = pipe(
+    handler(context, env),
+    Effect.catchAll(handleAppError),
+    Effect.catchAllDefect((defect) => {
+      console.error("[makeAstroRuntime] Defect:", defect)
+      return Effect.succeed(
+        Response.json({ error: "Internal Server Error", detail: String(defect) }, { status: 500 })
+      )
+    }),
   )
+  return ManagedRuntime.make(layerBuilder(env)).runPromise(handled)
 }
