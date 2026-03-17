@@ -3,21 +3,9 @@ import { Effect } from "effect"
 import { makeAstroRuntime } from "../../../../api/runtime"
 import { DbRepositoryLive } from "../../../../api/db"
 import { requireSuperadmin } from "../../../../api/auth"
-import { ServiceUnavailableError, CloudflareApiError } from "../../../../api/errors"
+import { ServiceUnavailableError } from "../../../../api/errors"
+import { cfFetch } from "../../../../api/utils/cloudflare"
 export const prerender = false
-
-const cfFetch = <T>(url: string, token: string, options?: RequestInit): Effect.Effect<T, CloudflareApiError> =>
-  Effect.gen(function* () {
-    const res = yield* Effect.tryPromise({
-      try: () => fetch(url, { ...options, headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...options?.headers } }),
-      catch: (cause) => new CloudflareApiError({ message: `CF fetch selhal: ${String(cause)}` }),
-    })
-    if (!res.ok) {
-      const text = yield* Effect.tryPromise({ try: () => res.text(), catch: () => new CloudflareApiError({ message: `CF API: ${res.status}`, status: res.status }) })
-      return yield* Effect.fail(new CloudflareApiError({ message: `CF API: ${res.status} ${text}`, status: res.status }))
-    }
-    return yield* Effect.tryPromise({ try: () => res.json() as Promise<T>, catch: () => new CloudflareApiError({ message: "Neplatna CF API odpoved" }) })
-  })
 
 const withDb = makeAstroRuntime((env) => DbRepositoryLive(env.DB))
 
@@ -28,8 +16,10 @@ export const POST: APIRoute = (context) => {
     Effect.gen(function* () {
       const cfToken = env.CF_API_TOKEN
       if (!cfToken) return yield* Effect.fail(new ServiceUnavailableError({ message: "CF_API_TOKEN neni nastaven" }))
-      const accountId = env.CF_ACCOUNT_ID ?? "a6f73612807840e33437c92d3771f8be"
-      const databaseId = env.CF_D1_DATABASE_ID ?? "0462ef41-dd80-47e5-baa5-7e8814546e14"
+      const accountId = env.CF_ACCOUNT_ID
+      if (!accountId) return yield* Effect.fail(new ServiceUnavailableError({ message: "CF_ACCOUNT_ID neni nastaven" }))
+      const databaseId = env.CF_D1_DATABASE_ID
+      if (!databaseId) return yield* Effect.fail(new ServiceUnavailableError({ message: "CF_D1_DATABASE_ID neni nastaven" }))
       const exportUrl = `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/export`
 
       const exportData = yield* cfFetch<{

@@ -33,10 +33,11 @@ function loadDataFromAPI() {
         const progJson = await progRes.json() as { data: Program[] }
         programs = progJson.data
       }
+      dataLoaded = true
     } catch {
-      // Fallback — data zustane prazdna
+      // Vyčistit promise aby šlo načtení zopakovat při dalším pokusu
+      loadPromise = null
     }
-    dataLoaded = true
   })()
   return loadPromise
 }
@@ -49,6 +50,9 @@ export interface MonthAssignment {
 }
 
 export type MonthIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
+
+/** Prefix pro modalProgramId při otevření modálu v režimu měsíc→programy */
+export const MONTH_MODE_PREFIX = "__month__"
 
 /** Měsíce školního roku: září (9) až srpen (8) */
 const monthKeys = [

@@ -15,10 +15,10 @@
     scriptName: string | null
   }
 
-  const WORKERS = ["bee-champs-hub-web"]
+  const WORKERS = ["bee-cz"]
   const MAX_ENTRIES = 500
 
-  let selectedWorker = $state("bee-champs-hub-web")
+  let selectedWorker = $state("bee-cz")
   let status = $state<"idle" | "connecting" | "connected" | "error">("idle")
   let error = $state("")
   let paused = $state(false)

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button } from "flowbite-svelte"
   import { t } from "../../i18n"
-  import { getCategoryColor, type usePlanner } from "./plannerState.svelte"
+  import { getCategoryColor, SCHOOL_MONTHS, type usePlanner } from "./plannerState.svelte"
 
   let { planner, oninquiry }: { planner: ReturnType<typeof usePlanner>; oninquiry: () => void } = $props()
 </script>
@@ -49,10 +49,7 @@
           style:color={color}
         >
           {program.icon} {program.name}
-          <span class="opacity-60 hidden sm:inline">{months.map((m) => {
-            const names = ["Zar", "Rij", "Lis", "Pro", "Led", "Uno", "Bre", "Dub", "Kve", "Cer", "Cvc", "Srp"]
-            return names[m]
-          }).join(", ")}</span>
+          <span class="opacity-60 hidden sm:inline">{months.map((m) => SCHOOL_MONTHS[m].shortName).join(", ")}</span>
         </span>
       {/each}
     </div>

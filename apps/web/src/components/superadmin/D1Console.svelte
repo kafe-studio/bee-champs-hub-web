@@ -66,12 +66,28 @@
     }
   }
 
+  // Povolené tabulky pro delete operace (ochrana proti SQL injection přes lastTable)
+  const ALLOWED_TABLES = ["categories", "programs", "inquiries", "testimonials", "settings"] as const
+
   async function deleteRow(index: number) {
     if (!lastTable || !results[index]) return
+
+    // Validace názvu tabulky proti allowlistu
+    if (!ALLOWED_TABLES.includes(lastTable as typeof ALLOWED_TABLES[number])) {
+      error = `Mazání z tabulky '${lastTable}' není povoleno`
+      return
+    }
+
     const row = results[index]
     const id = row["id"]
     if (id === undefined) {
       error = "Řádek nemá sloupec 'id'"
+      return
+    }
+
+    const numId = Number(id)
+    if (!Number.isFinite(numId) || numId <= 0) {
+      error = `Neplatné ID: ${String(id)}`
       return
     }
 
@@ -80,7 +96,7 @@
       await apiFetch("/superadmin/d1/query", {
         method: "POST",
         headers: authHeaders,
-        body: JSON.stringify({ sql: `DELETE FROM ${lastTable} WHERE id = ${Number(id)}` }),
+        body: JSON.stringify({ sql: `DELETE FROM ${lastTable} WHERE id = ?`, params: [numId] }),
       })
       results = results.filter((_, i) => i !== index)
     } catch (e) {

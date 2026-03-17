@@ -1,16 +1,16 @@
 <script lang="ts">
   import { Modal, Button } from "flowbite-svelte"
   import { t } from "../../i18n"
-  import { SCHOOL_MONTHS, getCategoryColor, getProgramById, type MonthIndex, type usePlanner } from "./plannerState.svelte"
+  import { SCHOOL_MONTHS, MONTH_MODE_PREFIX, getCategoryColor, getProgramById, type MonthIndex, type usePlanner } from "./plannerState.svelte"
 
   let { planner }: { planner: ReturnType<typeof usePlanner> } = $props()
 
   let isOpen = $state(true)
 
   // Rozliseni: prirazeni programu->mesice vs. mesic->programy
-  const isMonthMode = $derived(planner.modalProgramId?.startsWith("__month__") ?? false)
+  const isMonthMode = $derived(planner.modalProgramId?.startsWith(MONTH_MODE_PREFIX) ?? false)
   const monthIndex = $derived(
-    isMonthMode ? parseInt(planner.modalProgramId!.replace("__month__", "")) as MonthIndex : null
+    isMonthMode ? parseInt(planner.modalProgramId!.replace(MONTH_MODE_PREFIX, "")) as MonthIndex : null
   )
   const program = $derived(
     !isMonthMode && planner.modalProgramId ? getProgramById(planner.modalProgramId) : null

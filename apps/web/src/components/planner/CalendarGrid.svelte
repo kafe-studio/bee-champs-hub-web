@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Badge, Button } from "flowbite-svelte"
   import { t } from "../../i18n"
-  import { SCHOOL_MONTHS, getCategoryColor, type usePlanner } from "./plannerState.svelte"
+  import { SCHOOL_MONTHS, MONTH_MODE_PREFIX, getCategoryColor, type usePlanner } from "./plannerState.svelte"
 
   let { planner }: { planner: ReturnType<typeof usePlanner> } = $props()
 </script>
@@ -52,7 +52,7 @@
             outline
             color="light"
             size="xs"
-            onclick={() => planner.openModal(`__month__${month.index}`)}
+            onclick={() => planner.openModal(`${MONTH_MODE_PREFIX}${month.index}`)}
             class="w-full! border-dashed! border-border-light! text-text-muted/60! hover:text-primary! hover:border-primary/40! hover:bg-primary/5! rounded-lg!"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-1.5"><path d="M12 5v14"/><path d="M5 12h14"/></svg>

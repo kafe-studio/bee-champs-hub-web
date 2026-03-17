@@ -3,26 +3,14 @@ import { Effect, Schema, pipe } from "effect"
 import { makeAstroRuntime } from "../../../../api/runtime"
 import { DbRepositoryLive } from "../../../../api/db"
 import { requireSuperadmin } from "../../../../api/auth"
-import { ValidationError, ServiceUnavailableError, CloudflareApiError } from "../../../../api/errors"
+import { ValidationError, ServiceUnavailableError } from "../../../../api/errors"
+import { cfFetch } from "../../../../api/utils/cloudflare"
 export const prerender = false
 
 const CachePurgeRequest = Schema.Struct({
   purgeEverything: Schema.optional(Schema.Boolean),
   files: Schema.optional(Schema.Array(Schema.String)),
 })
-
-const cfFetch = <T>(url: string, token: string, options?: RequestInit): Effect.Effect<T, CloudflareApiError> =>
-  Effect.gen(function* () {
-    const res = yield* Effect.tryPromise({
-      try: () => fetch(url, { ...options, headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...options?.headers } }),
-      catch: (cause) => new CloudflareApiError({ message: `CF fetch selhal: ${String(cause)}` }),
-    })
-    if (!res.ok) {
-      const text = yield* Effect.tryPromise({ try: () => res.text(), catch: () => new CloudflareApiError({ message: `CF API: ${res.status}`, status: res.status }) })
-      return yield* Effect.fail(new CloudflareApiError({ message: `CF API: ${res.status} ${text}`, status: res.status }))
-    }
-    return yield* Effect.tryPromise({ try: () => res.json() as Promise<T>, catch: () => new CloudflareApiError({ message: "Neplatna CF API odpoved" }) })
-  })
 
 const withDb = makeAstroRuntime((env) => DbRepositoryLive(env.DB))
 

@@ -14,7 +14,7 @@ export const POST: APIRoute = (context) => {
   return withDb((_ctx, env) =>
     Effect.gen(function* () {
       const body = yield* Effect.tryPromise({
-        try: () => _ctx.request.json() as Promise<{ readonly sql?: string }>,
+        try: () => _ctx.request.json() as Promise<{ readonly sql?: string; readonly params?: readonly unknown[] }>,
         catch: () => new ValidationError({ message: "Neplatny JSON" }),
       })
       const sqlQuery = body.sql?.trim() ?? ""
@@ -22,17 +22,20 @@ export const POST: APIRoute = (context) => {
         return Response.json({ error: "SQL dotaz je prazdny" }, { status: 400 })
       }
 
-      const forbidden = /^\s*(DROP\s+TABLE|DROP\s+DATABASE|ALTER\s+TABLE\s+\w+\s+RENAME|ATTACH|DETACH|PRAGMA\s+(?!table_info|table_list))/i
-      if (forbidden.test(sqlQuery)) {
+      // Blocklist nebezpečných operací — kontrola i přes komentáře
+      const stripped = sqlQuery.replace(/\/\*[\s\S]*?\*\//g, "").replace(/--.*$/gm, "")
+      const forbidden = /^\s*(DROP\s+TABLE|DROP\s+DATABASE|ALTER\s+TABLE\s+\w+\s+RENAME|ATTACH|DETACH|PRAGMA\s+(?!table_info|table_list)|CREATE\s+TRIGGER)/i
+      if (forbidden.test(stripped)) {
         return Response.json({ error: "Tento prikaz je zakazany v D1 konzoli" }, { status: 403 })
       }
 
       yield* Effect.logInfo(`[D1 Konzole] ${sqlQuery.slice(0, 200)}`)
 
+      const params = Array.isArray(body.params) ? body.params : []
       const result = yield* Effect.tryPromise({
         try: () => {
           const stmt = env.DB.prepare(sqlQuery)
-          return stmt.all()
+          return params.length > 0 ? stmt.bind(...params).all() : stmt.all()
         },
         catch: (cause) => new ValidationError({ message: String(cause) }),
       })
