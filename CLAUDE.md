@@ -1,5 +1,10 @@
 # Bee Champs Hub - CLAUDE.md
 
+## MANDATORY — MCP docs
+
+Before writing ANY code, ALWAYS call `mcp__worker-mcp__search_docs` first to verify patterns in documentation. Never write code from memory — docs change frequently. One search per framework category (e.g. "effect", "svelte", "daisyui"), not per individual pattern. Use simple 1-2 word terms. Do NOT use subagents (Agent tool) — they lack MCP access.
+
+
 ## Projekt
 Planovaci platforma pro MS a ZS. Skoly si sestavi cely skolni rok — vyberou programy z 4 kategorii, priradi je do mesicu, a odeslou jednu souhrnnou poptavku.
 
@@ -118,3 +123,36 @@ Bez `@plugin` a `@source` Flowbite komponenty NEBUDOU mit styly (zadne bordery, 
 ## Dulezite soubory
 - `docs/SPRINTY.md` — rozplanovane sprinty podle kapitol zadani
 - `README.md` — kompletni zadani webu (specifikace)
+
+
+## kafe-stack plugin
+
+### MCP docs — mandatory
+
+NEVER write framework code from memory. Before writing ANY code that uses Effect TS, Svelte 5, Astro 6, daisyUI 5, or Cloudflare Workers APIs, search MCP docs first:
+
+- `mcp__worker-mcp__search_docs` — indexed docs for: `effect`, `svelte`, `sveltekit`, `astro`, `tailwind`, `daisyui`, `cloudflare`, `claude-code`
+- `mcp__cloudflare-docs__search` — Cloudflare OpenAPI spec
+- `mcp__cloudflare-docs__execute` — Cloudflare API access
+
+Use simple 1-2 word search terms. If you "just know" the API — verify anyway.
+
+### Forbidden patterns
+
+- `as any`, `@ts-ignore`, `@ts-nocheck`
+- `throw` in Effect code — use `Data.TaggedError`
+- `async/await` in Effect code — use `Effect.gen` + `yield*`
+- `export let` in Svelte — use `$props()`
+- `on:click` in Svelte — use `onclick`
+- `$:` reactive declarations — use `$derived`
+- `Astro.locals.runtime` — use `cloudflare:workers`
+
+### Workflow
+
+- `/work` for structured sprint work
+- `/review` before every commit
+- `/checkmcp` to audit MCP coverage or search docs
+- `/deploy` to commit, push, verify deploy
+- `/handoff` to document sprint
+- Czech with user, English in code
+
