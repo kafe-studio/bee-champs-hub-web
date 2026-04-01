@@ -131,11 +131,17 @@ Bez `@plugin` a `@source` Flowbite komponenty NEBUDOU mit styly (zadne bordery, 
 
 NEVER write framework code from memory. Before writing ANY code that uses Effect TS, Svelte 5, Astro 6, daisyUI 5, or Cloudflare Workers APIs, search MCP docs first:
 
-- `mcp__worker-mcp__search_docs` — indexed docs for: `effect`, `svelte`, `sveltekit`, `astro`, `tailwind`, `daisyui`, `cloudflare`, `claude-code`
-- `mcp__cloudflare-docs__search` — Cloudflare OpenAPI spec
-- `mcp__cloudflare-docs__execute` — Cloudflare API access
+- `mcp__worker-mcp__ask_docs` — preferred: AI-powered answer with citations (~300 tokens vs ~5000 for search). Use for "how do I…" questions.
+- `mcp__worker-mcp__search_docs` — raw doc search. Use `max_results=3` and `snippet_length=200` to save tokens. Full output only when you need raw content.
+- `mcp__cloudflare-api__search` — Cloudflare OpenAPI spec
+- `mcp__cloudflare-api__execute` — Cloudflare API access
 
-Use simple 1-2 word search terms. If you "just know" the API — verify anyway.
+MCP search strategy (pick the cheapest that works):
+
+1. `ask_docs` (~300 tokens) — "how does X work?" → AI answer with code + citations
+2. `search_docs(max_results=3, snippet_length=200)` (~500 tokens) — verify a pattern exists, see headings
+3. `search_docs(max_results=1)` (~500 tokens) — confirm exact API/syntax
+4. `get_doc_page` — only when you need full page content
 
 ### Forbidden patterns
 
