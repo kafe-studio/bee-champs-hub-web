@@ -5,6 +5,7 @@ import CategoriesSection from '@components/home/CategoriesSection.astro';
 import HowItWorksSection from '@components/home/HowItWorksSection.astro';
 import TestimonialsSection from '@components/home/TestimonialsSection.astro';
 import CtaSection from '@components/home/CtaSection.astro';
+import SupportSection from '@components/home/SupportSection.astro';
 import { apiFetchSSR } from '../lib/api-server';
 import type { Category } from '@bee-champs/shared';
 
@@ -34,4 +35,5 @@ try {
   <HowItWorksSection />
   <TestimonialsSection {testimonials} />
   <CtaSection />
+  <SupportSection />
 </Layout>
