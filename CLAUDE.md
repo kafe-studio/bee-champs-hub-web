@@ -1,9 +1,26 @@
 # Bee Champs Hub - CLAUDE.md
 
-## MANDATORY — MCP docs
+## MCP docs — mandatory
 
-Before writing ANY code, ALWAYS call `mcp__worker-mcp__search_docs` first to verify patterns in documentation. Never write code from memory — docs change frequently. One search per framework category (e.g. "effect", "svelte", "daisyui"), not per individual pattern. Use simple 1-2 word terms. Do NOT use subagents (Agent tool) — they lack MCP access.
+NEVER write framework code from memory. Before writing ANY code that uses Effect TS, Svelte 5, Astro 6, Tailwind CSS, shadcn-svelte, daisyUI 5, Hono, Drizzle, Expo, better-auth, bits-ui, tiptap, or Cloudflare Workers APIs, you MUST search MCP docs first:
 
+- `mcp__plugin_kafe-stack_context7__query-docs` — **preferred**: current docs from source repos. Use after resolving library ID via `resolve-library-id` or from `.claude/context7-libs.md`.
+- `mcp__worker-mcp__ask_docs` — AI-powered answer with citations (~300 tokens). Use for "how do I…" questions.
+- `mcp__worker-mcp__search_docs` — raw doc search. Use `max_results=3` and `snippet_length=200` to save tokens.
+- `mcp__cloudflare-api__search` — Cloudflare OpenAPI spec
+- `mcp__cloudflare-api__execute` — Cloudflare API access
+
+**MCP search strategy (pick the cheapest that works):**
+1. `context7 query-docs` (~200-500 tokens) — current docs from source repo, code snippets
+2. `ask_docs` (~300 tokens) — "how does X work?" → AI answer with code + citations
+3. `search_docs(max_results=3, snippet_length=200)` (~500 tokens) — verify a pattern exists
+4. `get_doc_page` — only when you need full page content
+
+Use simple 1-2 word search terms. One search per **framework sub-category** (effect-layer, effect-schema, svelte-state, svelte-lifecycle, hono, drizzle, shadcn, tailwind, cloudflare…). Generic "effect" or "svelte" searches are NOT enough — search for the specific API you're using. If you "just know" the API — verify anyway, your training data is outdated.
+
+**Context7 requirement:** When using 2+ framework categories, at least one search MUST be `context7 query-docs` (returns actual code examples). `search_docs` alone returns only titles — not enough for correct API usage.
+
+Pre-resolved library IDs for context7: check `.claude/context7-libs.md` first. If missing, run `/context7-init` to generate from package.json.
 
 ## Projekt
 Planovaci platforma pro MS a ZS. Skoly si sestavi cely skolni rok — vyberou programy z 4 kategorii, priradi je do mesicu, a odeslou jednu souhrnnou poptavku.

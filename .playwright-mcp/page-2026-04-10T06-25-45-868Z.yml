@@ -1,0 +1,160 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "Bee Champs Bee Champs Hub" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Bee Champs" [ref=e6]
+          - generic [ref=e7]: Bee Champs Hub
+        - generic [ref=e8]:
+          - link "Sport" [ref=e9] [cursor=pointer]:
+            - /url: /sport
+          - link "Vzdělávání" [ref=e10] [cursor=pointer]:
+            - /url: /vzdelavani
+          - link "Projektové dny" [ref=e11] [cursor=pointer]:
+            - /url: /projektove-dny
+          - link "Akce" [ref=e12] [cursor=pointer]:
+            - /url: /akce
+          - link "Roční plánovač" [ref=e13] [cursor=pointer]:
+            - /url: /planovac
+            - img [ref=e14]
+            - text: Roční plánovač
+  - complementary [ref=e16]:
+    - generic [ref=e17]:
+      - link "Bee Champs Bee Champs Hub" [ref=e18] [cursor=pointer]:
+        - /url: /
+        - img "Bee Champs" [ref=e19]
+        - generic [ref=e20]: Bee Champs Hub
+      - button "Zavřít" [ref=e21]:
+        - img [ref=e22]
+    - navigation [ref=e25]:
+      - link "Sport" [ref=e26] [cursor=pointer]:
+        - /url: /sport
+        - img [ref=e27]
+        - generic [ref=e33]: Sport
+      - link "Vzdělávání" [ref=e34] [cursor=pointer]:
+        - /url: /vzdelavani
+        - img [ref=e35]
+        - generic [ref=e38]: Vzdělávání
+      - link "Projektové dny" [ref=e39] [cursor=pointer]:
+        - /url: /projektove-dny
+        - img [ref=e40]
+        - generic [ref=e42]: Projektové dny
+      - link "Akce" [ref=e43] [cursor=pointer]:
+        - /url: /akce
+        - img [ref=e44]
+        - generic [ref=e46]: Akce
+      - link "Roční plánovač" [ref=e48] [cursor=pointer]:
+        - /url: /planovac
+        - img [ref=e49]
+        - generic [ref=e51]: Roční plánovač
+  - main [ref=e52]:
+    - generic [ref=e53]:
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - heading "Plánujte celý školní rok na jednom místě" [level=1] [ref=e59]:
+            - text: Plánujte celý školní rok na
+            - text: jednom místě
+          - list [ref=e60]:
+            - listitem [ref=e61]: Všestranný sportovní program
+            - listitem [ref=e63]: Motivace a inspirace
+            - listitem [ref=e65]: Individuální přístup
+          - generic [ref=e67]:
+            - link "Otevřít plánovač" [ref=e68] [cursor=pointer]:
+              - /url: /planovac
+              - img [ref=e69]
+              - text: Otevřít plánovač
+            - link "Prohlédnout programy" [ref=e71] [cursor=pointer]:
+              - /url: "#kategorie"
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - heading "50+" [level=4] [ref=e74]
+              - paragraph [ref=e75]: Ověřených programů
+            - generic [ref=e76]:
+              - heading "100+" [level=4] [ref=e77]
+              - paragraph [ref=e78]: Spokojených škol
+            - generic [ref=e79]:
+              - heading "10k+" [level=4] [ref=e80]
+              - paragraph [ref=e81]: Dětí v programech
+        - img "Bee Champs Hub" [ref=e83]
+      - generic [ref=e85]: scroll
+    - generic [ref=e89]:
+      - text: Co nabízíme
+      - heading "Čtyři kategorie, jeden systém" [level=2] [ref=e90]
+      - paragraph [ref=e91]: Vyberte z ověřených programů nebo si sestavte celý rok v plánovači — sport, vzdělávání, pobyty i projektové dny.
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - text: Jak to funguje
+        - heading "Od výběru k realizaci" [level=2] [ref=e96]
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - generic [ref=e99]: "01"
+          - img [ref=e101]
+          - heading "Otevřete plánovač" [level=3] [ref=e103]
+          - paragraph [ref=e104]: V ročním plánovači vidíte celou nabídku — sport, vzdělávání i pobyty — přehledně na jednom místě.
+        - generic [ref=e105]:
+          - generic [ref=e106]: "02"
+          - img [ref=e108]
+          - heading "Vyberte programy" [level=3] [ref=e111]
+          - paragraph [ref=e112]: Klikejte a přidávejte klidně 10 různých akcí. Každou přiřaďte do měsíce podle potřeby.
+        - generic [ref=e113]:
+          - generic [ref=e114]: "03"
+          - img [ref=e116]
+          - heading "Odešlete poptávku" [level=3] [ref=e119]
+          - paragraph [ref=e120]: Jeden formulář, všechny akce najednou. Kontakt, počty dětí, termíny — hotovo za 2 minuty.
+        - generic [ref=e121]:
+          - generic [ref=e122]: "04"
+          - img [ref=e124]
+          - heading "My zařídíme vše" [level=3] [ref=e130]
+          - paragraph [ref=e131]: Potvrdíme detaily a zajistíme realizaci každé akce přesně podle vašeho plánu.
+    - generic [ref=e135]:
+      - text: Reference
+      - heading "Co říkají školy" [level=2] [ref=e136]
+    - generic [ref=e139]:
+      - img [ref=e141]
+      - heading "Naplánujte celý rok za 15 minut" [level=2] [ref=e143]
+      - paragraph [ref=e144]: Vyberte si libovolný mix sportovních, vzdělávacích i pobytových programů — vše v jednom.
+      - link "Otevřít roční plánovač" [ref=e145] [cursor=pointer]:
+        - /url: /planovac
+        - img [ref=e146]
+        - text: Otevřít roční plánovač
+    - link "Za podpory Univerzity Karlovy — Fakulta tělesné výchovy a sportu" [ref=e151] [cursor=pointer]:
+      - /url: https://www.ftvs.cuni.cz/cs
+      - img "Za podpory Univerzity Karlovy — Fakulta tělesné výchovy a sportu" [ref=e152]
+  - contentinfo [ref=e153]:
+    - generic [ref=e155]:
+      - generic [ref=e156]:
+        - generic [ref=e157]:
+          - link "Bee Champs Bee Champs Hub" [ref=e158] [cursor=pointer]:
+            - /url: /
+            - img "Bee Champs" [ref=e159]
+            - generic [ref=e160]: Bee Champs Hub
+          - paragraph [ref=e161]: Plánovací platforma pro MŠ a ZŠ. Sestavte celý školní rok na jednom místě.
+        - generic [ref=e162]:
+          - heading "Programy" [level=3] [ref=e163]
+          - list [ref=e164]:
+            - listitem [ref=e165]:
+              - link "Sport" [ref=e166] [cursor=pointer]:
+                - /url: /sport
+            - listitem [ref=e167]:
+              - link "Vzdělávání" [ref=e168] [cursor=pointer]:
+                - /url: /vzdelavani
+            - listitem [ref=e169]:
+              - link "Projektové dny" [ref=e170] [cursor=pointer]:
+                - /url: /projektove-dny
+            - listitem [ref=e171]:
+              - link "Akce a pobyty" [ref=e172] [cursor=pointer]:
+                - /url: /akce
+        - generic [ref=e173]:
+          - heading "Nástroje" [level=3] [ref=e174]
+          - list [ref=e175]:
+            - listitem [ref=e176]:
+              - link "Roční plánovač" [ref=e177] [cursor=pointer]:
+                - /url: /planovac
+        - generic [ref=e178]:
+          - heading "Kontakt" [level=3] [ref=e179]
+          - list [ref=e180]:
+            - listitem [ref=e181]:
+              - link "info@beechampshub.cz" [ref=e182] [cursor=pointer]:
+                - /url: mailto:info@beechampshub.cz
+      - paragraph [ref=e184]: © 2026 BEE CHAMPS HUB. Všechna práva vyhrazena.
